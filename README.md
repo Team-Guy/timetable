@@ -91,7 +91,7 @@ Quit the server with CONTROL-C.
 
 ### II. Ubuntu
 
-#####1.Installing & Making python 3.7.x global interpretor
+##### 1.Installing & Making python 3.7.x global interpretor
  - If you already have it skip ( python --version to check )
  - Below is just one method to set this up, there are plenty of others
  
@@ -113,20 +113,20 @@ if which pyenv > /dev/null; then
 fi
 ```
 
-#####2.Installing virtualenv
+##### 2.Installing virtualenv
 
 ```bash
 pip install virtualenv
 ```
 
-#####3.Make sure u have postgres installed and run this commands:
+##### 3.Make sure u have postgres installed and run this commands:
 
 ```bash
 sudo apt-get install python-psycopg2
 sudo apt-get install libpq-dev
 ```
 
-#####4. Clone the project, create a virtual environment in which we will keep the dependencies, activate it and install dependendices
+##### 4. Clone the project, create a virtual environment in which we will keep the dependencies, activate it and install dependendices
 (In project root or wherever)
 ```bash
 virtualenv timetable-venv
