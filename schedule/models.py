@@ -26,4 +26,4 @@ class Activity(Model):
 
 
     def __str__(self):
-        return self.title + " " + self.professor + " " + self.location + " " + self.group + " " + self.day + " " + self.start_time.str + " " + self.duration + " " + self.frequency + " " + self.priority + " " + self.type + " " + self.description
+        return self.title + " " + self.professor + " " + self.location + " " + self.group + " " + self.day + " " + self.start_time.strftime("%H:%M:%S") + " " + str(self.duration) + " " + str(self.frequency) + " " + self.priority + " " + self.type + " " + self.description
