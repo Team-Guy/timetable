@@ -23,3 +23,7 @@ class Activity(Model):
     priority = CharField(max_length=30)
     type = CharField(max_length=30)
     description = TextField()
+
+
+    def __str__(self):
+        return self.title + " " + self.professor + " " + self.location + " " + self.group + " " + self.day + " " + self.start_time.str + " " + self.duration + " " + self.frequency + " " + self.priority + " " + self.type + " " + self.description
