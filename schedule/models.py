@@ -16,6 +16,7 @@ class Activity(Model):
     professor = CharField(max_length=255)
     location = CharField(max_length=255)
     group = CharField(max_length=10)
+    day = CharField(max_length=20, default="Monday")
     start_time = TimeField()
     duration = IntegerField(default=2)
     frequency = IntegerField()
