@@ -1,4 +1,4 @@
-from schedule.models import Activity
+from schedule.models import Activity, User
 from .serializers import AcitivitySerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -11,8 +11,12 @@ class ActivitesViewSet(viewsets.ViewSet):
        serializer = AcitivitySerializer(queryset, many=True)
        return Response(serializer.data)
 
-  # @action(methods=['get'], detail=)
-   #def userActivities(self,request):
+   @action(methods=['get'], detail=True)
+   def userActivities(self,request):
+       queryset = Activity.objects.all(group=request.data)
+       serializer = AcitivitySerializer(queryset, many=True)
+       return Response(serializer.data)
+
 
 
 
