@@ -12,9 +12,10 @@ class ActivitesViewSet(viewsets.ViewSet):
        return Response(serializer.data)
 
    @action(methods=['get'], detail=True)
-   def userActivities(self,request):
-       queryset = Activity.objects.all(group=request.data)
-       serializer = AcitivitySerializer(queryset, many=True)
+   def userActivities(self, request):
+       queryset = User.objects.first(email=request.data)
+       queryset2 = Activity.objects.all(group=queryset.group)
+       serializer = AcitivitySerializer(queryset2, many=True)
        return Response(serializer.data)
 
 
