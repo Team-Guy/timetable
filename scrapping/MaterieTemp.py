@@ -1,4 +1,5 @@
 import json
+from scrapping.ClassType import *
 
 class MaterieTemp:
 
@@ -13,6 +14,10 @@ class MaterieTemp:
         self.frequency=frequency
         self.day=day
         self.tip=classType
+        if self.tip=='Laborator' or self.tip=='Seminar':
+            self.priority='HIGH'
+        else:
+            self.priority='LOW'
 
 
 

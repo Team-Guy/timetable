@@ -8,9 +8,7 @@ class User(Model):
     group = CharField(max_length=10)
 
 
-class Activity(Model):
-    class Meta:
-        unique_together = (('title', 'group', 'type'),)
+class SchoolActivity(Model):
 
     title = CharField(max_length=255)
     professor = CharField(max_length=255)
@@ -18,7 +16,6 @@ class Activity(Model):
     group = CharField(max_length=10)
     start_time = TimeField()
     duration = IntegerField(default=2)
-    frequency = IntegerField()
+    frequency = CharField(max_length=5)
     priority = CharField(max_length=30)
     type = CharField(max_length=30)
-    description = TextField()

@@ -54,7 +54,7 @@ def getGroups(groupHeader):
     return l
 
 def processDay(rows,day,groups):
-    ore=[day]
+    ore=[]
     for i in range(0,len(rows)):
         startHour=int(rows[i].find(isHour).text.split('-')[0])
         column=0
