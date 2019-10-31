@@ -21,7 +21,6 @@ def convertToModel(ora):
             frequency=ora.frequency,
             start_time=datetime.time(ora.startHour,0,0),
             type=ora.tip,
-            description='',
             priority=ora.priority
         )
         a.save()
