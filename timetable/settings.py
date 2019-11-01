@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -76,10 +77,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('db_name', 'timetable'),
         'USER': os.environ.get('db_user', 'postgres'),
-        'PASSWORD': os.environ.get('db_password','postgres'),
+        'PASSWORD': os.environ.get('db_password', ''),
         'HOST': '127.0.0.1',
         'PORT': '5432'
-    }
+    },
+    'prod': dj_database_url.config(conn_max_age=500,
+                                   default='postgres://jnhuxxnzsrezge:6eb9647128912e3fb71da7f5042f7c5ba38f9fce21ecf34ff'
+                                           '39574cf1ea11c54@ec2-176-34-184-174.eu-west-1.compute.amazonaws.com:5432/d2m'
+                                           'ab76vb5ahsv')
 }
 
 # Password validation
