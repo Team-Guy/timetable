@@ -1,7 +1,10 @@
 from django.contrib import admin
 
 # Register your models here.
-from schedule.models import User, Activity
+from schedule.models import User, SchoolActivity, ExtraActivity, UserExtraActivity, UserSchoolActivity
 
 admin.site.register(User)
-admin.site.register(Activity)
+admin.site.register(SchoolActivity)
+admin.site.register(UserExtraActivity)
+admin.site.register(UserSchoolActivity)
+admin.site.register(ExtraActivity)

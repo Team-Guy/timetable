@@ -1,0 +1,1966 @@
+ Luni
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "LAZAR Ioan",
+    "locatie": "L339",
+    "grupe": [
+        "231/2"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Luni",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "LAZAR Ioan",
+    "locatie": "L339",
+    "grupe": [
+        "235/2"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Luni",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "LUPSA Dana",
+    "locatie": "6/II",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Luni",
+    "tip": "Curs"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "NICULESCU Virginia",
+    "locatie": "6/II",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Luni",
+    "tip": "Curs"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "NICULESCU Virginia",
+    "locatie": "Goanga",
+    "grupe": [
+        "231/1",
+        "231/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Luni",
+    "tip": "Seminar"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "NICULESCU Virginia",
+    "locatie": "Goanga",
+    "grupe": [
+        "232/1",
+        "232/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Luni",
+    "tip": "Seminar"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "POP Andreea",
+    "locatie": "A312",
+    "grupe": [
+        "236/1",
+        "236/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Luni",
+    "tip": "Seminar"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "POP Andreea",
+    "locatie": "6/II",
+    "grupe": [
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 18,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Luni",
+    "tip": "Seminar"
+}
+Marti
+{
+    "text": "Metode inteligente de rezolvare a problemelor reale",
+    "profesor": "DIOSAN Laura",
+    "locatie": "C335",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Marti",
+    "tip": "Curs"
+}
+{
+    "text": "Metode inteligente de rezolvare a problemelor reale",
+    "profesor": "DIOSAN Laura",
+    "locatie": "L402",
+    "grupe": [
+        "231/1",
+        "231/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Automatizarea proceselor de business",
+    "profesor": "CHISALITA-CRETU Camelia",
+    "locatie": "L338",
+    "grupe": [
+        "231/1",
+        "231/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Metode inteligente de rezolvare a problemelor reale",
+    "profesor": "DIOSAN Laura",
+    "locatie": "L402",
+    "grupe": [
+        "232/1",
+        "232/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Metode inteligente de rezolvare a problemelor reale",
+    "profesor": "DIOSAN Laura",
+    "locatie": "L402",
+    "grupe": [
+        "233/1",
+        "233/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Automatizarea proceselor de business",
+    "profesor": "CHISALITA-CRETU Camelia",
+    "locatie": "L338",
+    "grupe": [
+        "233/1",
+        "233/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Metode inteligente de rezolvare a problemelor reale",
+    "profesor": "DIOSAN Laura",
+    "locatie": "L402",
+    "grupe": [
+        "234/1",
+        "234/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Metode inteligente de rezolvare a problemelor reale",
+    "profesor": "DIOSAN Laura",
+    "locatie": "L402",
+    "grupe": [
+        "235/1",
+        "235/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Automatizarea proceselor de business",
+    "profesor": "CHISALITA-CRETU Camelia",
+    "locatie": "L338",
+    "grupe": [
+        "235/1",
+        "235/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Metode inteligente de rezolvare a problemelor reale",
+    "profesor": "DIOSAN Laura",
+    "locatie": "L402",
+    "grupe": [
+        "236/1",
+        "236/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Metode inteligente de rezolvare a problemelor reale",
+    "profesor": "DIOSAN Laura",
+    "locatie": "L402",
+    "grupe": [
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Automatizarea proceselor de business",
+    "profesor": "CHISALITA-CRETU Camelia",
+    "locatie": "L338",
+    "grupe": [
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Automatizarea proceselor de business",
+    "profesor": "CHISALITA-CRETU Camelia",
+    "locatie": "C335",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Marti",
+    "tip": "Curs"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "MURSA Bogdan",
+    "locatie": "L439",
+    "grupe": [
+        "231/1"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Automatizarea proceselor de business",
+    "profesor": "CHISALITA-CRETU Camelia",
+    "locatie": "L338",
+    "grupe": [
+        "232/1",
+        "232/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Automatizarea proceselor de business",
+    "profesor": "CHISALITA-CRETU Camelia",
+    "locatie": "L338",
+    "grupe": [
+        "234/1",
+        "234/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Automatizarea proceselor de business",
+    "profesor": "CHISALITA-CRETU Camelia",
+    "locatie": "L338",
+    "grupe": [
+        "236/1",
+        "236/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "Sima Ioan",
+    "locatie": "L321",
+    "grupe": [
+        "237/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Aplicatii ale geometriei in informatica",
+    "profesor": "BLAGA Paul",
+    "locatie": "L002",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Marti",
+    "tip": "Seminar"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "MURSA Bogdan",
+    "locatie": "L439",
+    "grupe": [
+        "231/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "Sima Ioan",
+    "locatie": "L343",
+    "grupe": [
+        "232/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "POP Andreea",
+    "locatie": "L321",
+    "grupe": [
+        "234/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "Sima Ioan",
+    "locatie": "L001",
+    "grupe": [
+        "234/2"
+    ],
+    "startHour": 18,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Marti",
+    "tip": "Laborator"
+}
+Miercuri
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "Sima Ioan",
+    "locatie": "L002",
+    "grupe": [
+        "234/1"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Miercuri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "BOTA Daniel",
+    "locatie": "L321",
+    "grupe": [
+        "232/1"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Miercuri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "BOTA Daniel",
+    "locatie": "L321",
+    "grupe": [
+        "232/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Miercuri",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "MURESAN Horea",
+    "locatie": "L339",
+    "grupe": [
+        "232/1"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Miercuri",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "POP Andreea",
+    "locatie": "C510",
+    "grupe": [
+        "233/1",
+        "233/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Miercuri",
+    "tip": "Seminar"
+}
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "BOTA Daniel",
+    "locatie": "L001",
+    "grupe": [
+        "236/1"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Miercuri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "BOTA Daniel",
+    "locatie": "L001",
+    "grupe": [
+        "236/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Miercuri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "Sima Ioan",
+    "locatie": "L402",
+    "grupe": [
+        "237/1"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Miercuri",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "POP Andreea",
+    "locatie": "L001",
+    "grupe": [
+        "231/1",
+        "231/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Miercuri",
+    "tip": "Seminar"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "MURESAN Horea",
+    "locatie": "L302",
+    "grupe": [
+        "232/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Miercuri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "NICULESCU Virginia",
+    "locatie": "C510",
+    "grupe": [
+        "233/1",
+        "233/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Miercuri",
+    "tip": "Seminar"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "NICULESCU Virginia",
+    "locatie": "C510",
+    "grupe": [
+        "234/1",
+        "234/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Miercuri",
+    "tip": "Seminar"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "Sima Ioan",
+    "locatie": "L002",
+    "grupe": [
+        "236/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Miercuri",
+    "tip": "Laborator"
+}
+{
+    "text": "Aplicatii ale geometriei in informatica",
+    "profesor": "BLAGA Paul",
+    "locatie": "7/I",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Miercuri",
+    "tip": "Curs"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "Sima Ioan",
+    "locatie": "L302",
+    "grupe": [
+        "233/1"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Miercuri",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "POP Andreea",
+    "locatie": "L336",
+    "grupe": [
+        "234/1"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Miercuri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "NICULESCU Virginia",
+    "locatie": "C512",
+    "grupe": [
+        "235/1",
+        "235/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Miercuri",
+    "tip": "Seminar"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "NICULESCU Virginia",
+    "locatie": "C512",
+    "grupe": [
+        "236/1",
+        "236/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Miercuri",
+    "tip": "Seminar"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "Sima Ioan",
+    "locatie": "L321",
+    "grupe": [
+        "233/2"
+    ],
+    "startHour": 18,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Miercuri",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "POP Andreea",
+    "locatie": "C310",
+    "grupe": [
+        "235/1",
+        "235/2"
+    ],
+    "startHour": 18,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Miercuri",
+    "tip": "Seminar"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "NICULESCU Virginia",
+    "locatie": "C512",
+    "grupe": [
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 18,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Miercuri",
+    "tip": "Seminar"
+}
+Joi
+{
+    "text": "Prelucrarea imaginilor",
+    "profesor": "PREJMEREAN Vasile",
+    "locatie": "C510",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Curs"
+}
+{
+    "text": "Aspecte pragmatice in programare",
+    "profesor": "LUPSA Radu",
+    "locatie": "L534",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Curs"
+}
+{
+    "text": "Interactiunea om-calculator",
+    "profesor": "GURAN  Adriana",
+    "locatie": "C335",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Curs"
+}
+{
+    "text": "Realitate virtuala",
+    "profesor": "BOIAN Rares",
+    "locatie": "C310",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Curs"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "CIOBAN Vasile",
+    "locatie": "L306",
+    "grupe": [
+        "231/1"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Securitate software",
+    "profesor": "SUCIU Mihai",
+    "locatie": "C335",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Curs"
+}
+{
+    "text": "Instruire asistata de calculator",
+    "profesor": "MAGDAS Ioana",
+    "locatie": "A303",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 10,
+    "duration": 1,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Curs"
+}
+{
+    "text": "Prelucrarea imaginilor",
+    "profesor": "PREJMEREAN Vasile",
+    "locatie": "L439",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Aspecte pragmatice in programare",
+    "profesor": "LUPSA Radu",
+    "locatie": "L439",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Instruire asistata de calculator",
+    "profesor": "MAGDAS Ioana",
+    "locatie": "A303",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 11,
+    "duration": 1,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Seminar"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "CIOBAN Vasile",
+    "locatie": "L343",
+    "grupe": [
+        "231/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Interactiunea om-calculator",
+    "profesor": "GURAN  Adriana",
+    "locatie": "L338",
+    "grupe": [
+        "232/1",
+        "232/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "POP Andreea",
+    "locatie": "L002",
+    "grupe": [
+        "237/1"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Grafica pe calculator",
+    "profesor": "PREJMEREAN Vasile",
+    "locatie": "C335",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Curs"
+}
+{
+    "text": "Procesarea datelor audio-video",
+    "profesor": "STERCA Adrian",
+    "locatie": "C310",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Curs"
+}
+{
+    "text": "Practica pedagogica observativa",
+    "profesor": "MAGDAS Ioana",
+    "locatie": "A322",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 12,
+    "duration": 3,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Seminar"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "POP Andreea",
+    "locatie": "L302",
+    "grupe": [
+        "235/1"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Securitate software",
+    "profesor": "LUNGANA-Niculescu Alexandru",
+    "locatie": "L338",
+    "grupe": [
+        "231/1",
+        "231/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Interactiunea om-calculator",
+    "profesor": "GURAN  Adriana",
+    "locatie": "L439",
+    "grupe": [
+        "231/1",
+        "231/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Procesarea datelor audio-video",
+    "profesor": "STERCA Adrian",
+    "locatie": "L306",
+    "grupe": [
+        "232/1",
+        "232/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Interactiunea om-calculator",
+    "profesor": "GURAN  Adriana",
+    "locatie": "L439",
+    "grupe": [
+        "233/1",
+        "233/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Securitate software",
+    "profesor": "LUNGANA-Niculescu Alexandru",
+    "locatie": "L338",
+    "grupe": [
+        "234/1",
+        "234/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Procesarea datelor audio-video",
+    "profesor": "STERCA Adrian",
+    "locatie": "L306",
+    "grupe": [
+        "235/1",
+        "235/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Interactiunea om-calculator",
+    "profesor": "GURAN  Adriana",
+    "locatie": "L439",
+    "grupe": [
+        "235/1",
+        "235/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Procesarea datelor audio-video",
+    "profesor": "STERCA Adrian",
+    "locatie": "L306",
+    "grupe": [
+        "236/1",
+        "236/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "POP Andreea",
+    "locatie": "L343",
+    "grupe": [
+        "236/1"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Interactiunea om-calculator",
+    "profesor": "GURAN  Adriana",
+    "locatie": "L439",
+    "grupe": [
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "POP Andreea",
+    "locatie": "L302",
+    "grupe": [
+        "235/1"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Realitate virtuala",
+    "profesor": "BOIAN Rares",
+    "locatie": "L320",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Grafica pe calculator",
+    "profesor": "PREJMEREAN Vasile",
+    "locatie": "L439",
+    "grupe": [
+        "231/1",
+        "231/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Procesarea datelor audio-video",
+    "profesor": "STERCA Adrian",
+    "locatie": "L301",
+    "grupe": [
+        "231/1",
+        "231/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Securitate software",
+    "profesor": "TICLE Daniel",
+    "locatie": "L338",
+    "grupe": [
+        "232/1",
+        "232/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Procesarea datelor audio-video",
+    "profesor": "STERCA Adrian",
+    "locatie": "L301",
+    "grupe": [
+        "233/1",
+        "233/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Grafica pe calculator",
+    "profesor": "PREJMEREAN Vasile",
+    "locatie": "L336",
+    "grupe": [
+        "233/1",
+        "233/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Procesarea datelor audio-video",
+    "profesor": "STERCA Adrian",
+    "locatie": "L301",
+    "grupe": [
+        "234/1",
+        "234/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Grafica pe calculator",
+    "profesor": "PREJMEREAN Vasile",
+    "locatie": "L336",
+    "grupe": [
+        "234/1",
+        "234/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Securitate software",
+    "profesor": "TICLE Daniel",
+    "locatie": "L338",
+    "grupe": [
+        "235/1",
+        "235/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Grafica pe calculator",
+    "profesor": "PREJMEREAN Vasile",
+    "locatie": "L439",
+    "grupe": [
+        "236/1",
+        "236/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Grafica pe calculator",
+    "profesor": "PREJMEREAN Vasile",
+    "locatie": "L439",
+    "grupe": [
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Procesarea datelor audio-video",
+    "profesor": "STERCA Adrian",
+    "locatie": "L301",
+    "grupe": [
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 16,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Grafica pe calculator",
+    "profesor": "PREJMEREAN Vasile",
+    "locatie": "L336",
+    "grupe": [
+        "232/1",
+        "232/2"
+    ],
+    "startHour": 18,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Securitate software",
+    "profesor": "TICLE Daniel",
+    "locatie": "L338",
+    "grupe": [
+        "233/1",
+        "233/2"
+    ],
+    "startHour": 18,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Grafica pe calculator",
+    "profesor": "PREJMEREAN Vasile",
+    "locatie": "L336",
+    "grupe": [
+        "235/1",
+        "235/2"
+    ],
+    "startHour": 18,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Securitate software",
+    "profesor": "TICLE Daniel",
+    "locatie": "L338",
+    "grupe": [
+        "236/1",
+        "236/2"
+    ],
+    "startHour": 18,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+{
+    "text": "Securitate software",
+    "profesor": "TICLE Daniel",
+    "locatie": "L338",
+    "grupe": [
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 18,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Joi",
+    "tip": "Laborator"
+}
+Vineri
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "LAZAR Ioan",
+    "locatie": "L302",
+    "grupe": [
+        "231/1"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "POP Andreea",
+    "locatie": "A311",
+    "grupe": [
+        "232/1",
+        "232/2"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Seminar"
+}
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "BOTA Daniel",
+    "locatie": "L001",
+    "grupe": [
+        "233/1"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "BOTA Daniel",
+    "locatie": "L001",
+    "grupe": [
+        "233/2"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "LAZAR Ioan",
+    "locatie": "L302",
+    "grupe": [
+        "235/1"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "MURSA Bogdan",
+    "locatie": "L306",
+    "grupe": [
+        "235/2"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "ENESCU Alina",
+    "locatie": "L002",
+    "grupe": [
+        "237/2"
+    ],
+    "startHour": 8,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Interactiunea om-calculator",
+    "profesor": "GURAN  Adriana",
+    "locatie": "MOS-S15",
+    "grupe": [
+        "231/2",
+        "232/1"
+    ],
+    "startHour": 9,
+    "duration": 1,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Interactiunea om-calculator",
+    "profesor": "GURAN  Adriana",
+    "locatie": "MOS-S15",
+    "grupe": [
+        "232/2",
+        "233/1"
+    ],
+    "startHour": 9,
+    "duration": 1,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Proiect colectiv",
+    "profesor": "Balan Lucian",
+    "locatie": "C514",
+    "grupe": [
+        "231/1",
+        "231/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Proiect colectiv",
+    "profesor": "BALOGH Reka",
+    "locatie": "C512",
+    "grupe": [
+        "233/1",
+        "233/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "POP Andreea",
+    "locatie": "A313",
+    "grupe": [
+        "234/1",
+        "234/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Seminar"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "MURSA Bogdan",
+    "locatie": "L306",
+    "grupe": [
+        "235/1"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "CIOBAN Vasile",
+    "locatie": "L336",
+    "grupe": [
+        "235/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "BOTA Daniel",
+    "locatie": "L001",
+    "grupe": [
+        "237/1"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "BOTA Daniel",
+    "locatie": "L001",
+    "grupe": [
+        "237/2"
+    ],
+    "startHour": 10,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "MURSA Bogdan",
+    "locatie": "L306",
+    "grupe": [
+        "232/1"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "ENESCU Alina",
+    "locatie": "L002",
+    "grupe": [
+        "233/1"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "CIOBAN Vasile",
+    "locatie": "L339",
+    "grupe": [
+        "233/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "BOTA Daniel",
+    "locatie": "L439",
+    "grupe": [
+        "234/1"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "impar",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "BOTA Daniel",
+    "locatie": "L439",
+    "grupe": [
+        "234/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "par",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Proiect colectiv",
+    "profesor": "PETRASCU Dragos",
+    "locatie": "C512",
+    "grupe": [
+        "235/1",
+        "235/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Proiect colectiv",
+    "profesor": "AGOTA Radoi-Riger",
+    "locatie": "C514",
+    "grupe": [
+        "236/1",
+        "236/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Proiect colectiv",
+    "profesor": "RUS Ovidiu",
+    "locatie": "L534",
+    "grupe": [
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 12,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Proiect colectiv",
+    "profesor": "Rosian Iulia",
+    "locatie": "L534",
+    "grupe": [
+        "232/1",
+        "232/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Proiect colectiv",
+    "profesor": "PETRASCU Dragos",
+    "locatie": "C512",
+    "grupe": [
+        "234/1",
+        "234/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare paralela si distribuita",
+    "profesor": "MURSA Bogdan",
+    "locatie": "L306",
+    "grupe": [
+        "236/1"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Limbaje formale si tehnici de compilare",
+    "profesor": "ENESCU Alina",
+    "locatie": "L307",
+    "grupe": [
+        "236/2"
+    ],
+    "startHour": 14,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Laborator"
+}
+{
+    "text": "Programare pentru dispozitive mobile",
+    "profesor": "LAZAR Ioan",
+    "locatie": "2/I",
+    "grupe": [
+        "231/1",
+        "231/2",
+        "232/1",
+        "232/2",
+        "233/1",
+        "233/2",
+        "234/1",
+        "234/2",
+        "235/1",
+        "235/2",
+        "236/1",
+        "236/2",
+        "237/1",
+        "237/2"
+    ],
+    "startHour": 18,
+    "duration": 2,
+    "frequency": "full",
+    "day": "Vineri",
+    "tip": "Curs"
+}
