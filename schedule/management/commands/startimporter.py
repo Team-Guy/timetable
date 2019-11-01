@@ -1,5 +1,8 @@
 from django.core.management import BaseCommand
 
+from scrapping.Link import Link
+from scrapping.main import getInfo
+
 
 class Command(BaseCommand):
     help = 'Start the scraper for the ubb timetable'
@@ -8,4 +11,5 @@ class Command(BaseCommand):
         pass
 
     def handle(self, *args, **options):
-        self.stdout.write('Importing ...')
+        for data in Link.all:
+            getInfo(data)

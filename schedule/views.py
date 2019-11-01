@@ -44,5 +44,5 @@ def user_schedule(request, username):
 
 
 def index(request):
-    getInfo(Link.IE3)
+    # getInfo(Link.IE2)
     return HttpResponse("yay")
