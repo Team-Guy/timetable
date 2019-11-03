@@ -9,7 +9,6 @@ class User(Model):
 
 
 class SchoolActivity(Model):
-
     title = CharField(max_length=255)
     professor = CharField(max_length=255)
     location = CharField(max_length=255)
@@ -19,3 +18,4 @@ class SchoolActivity(Model):
     frequency = CharField(max_length=5)
     priority = CharField(max_length=30)
     type = CharField(max_length=30)
+    day = CharField(max_length=30)
