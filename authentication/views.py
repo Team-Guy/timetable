@@ -12,13 +12,20 @@ import json
 def _process_register(post_body):
     post = json.loads(post_body)
     # print(post)
-    User.objects.all().delete()
+    # User.objects.all().delete()
     user = User(
         name=post["name"],
         group=post["group"],
         email=post["email"]
     )
     user.save()
+    pref=Preference(
+        user=user,
+        preference1=False,
+        preference2=False,
+        preference3=False
+    )
+    pref.save()
     return user.id
 
 
