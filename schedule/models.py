@@ -3,9 +3,11 @@ from django.db.models import Model, CharField, TimeField, IntegerField, TextFiel
 
 
 class User(Model):
+    uid = CharField(primary_key=True, max_length=255)
     email = EmailField(unique=True)
     name = CharField(max_length=255)
     group = CharField(max_length=10)
+    photo_url = CharField(max_length=255)
 
 
 class SchoolActivity(Model):
