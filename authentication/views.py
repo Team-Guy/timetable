@@ -19,7 +19,7 @@ def _process_register(post_body):
         email=post["email"]
     )
     user.save()
-    pref=Preference(
+    pref = Preference(
         user=user,
         preference1=False,
         preference2=False,
@@ -37,11 +37,11 @@ def register(request):
     return HttpResponse(str(uid))
 
 
-def _process_preferences(post_body,user_id):
-    post=json.loads(post_body)
-    user=User.objects.get(id=user_id)
+def _process_preferences(post_body, user_id):
+    post = json.loads(post_body)
+    user = User.objects.get(id=user_id)
     # print(post["preference1"])
-    preference=Preference(
+    preference = Preference(
         user=user,
         preference1=post["preference1"],
         preference2=post["preference2"],
@@ -51,9 +51,10 @@ def _process_preferences(post_body,user_id):
     preference.save()
     return user_id
 
+
 # @csrf_exempt
-def preferences(request,user_id):
-    pid=-1
-    if request.method=="POST":
-        pid=_process_preferences(request.body,user_id)
+def preferences(request, user_id):
+    pid = -1
+    if request.method == "POST":
+        pid = _process_preferences(request.body, user_id)
     return HttpResponse(str(pid))
