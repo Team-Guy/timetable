@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from authentication.models import Preference
@@ -39,12 +39,13 @@ def register(request):
     uid = -1
     if request.method == "POST":
         uid = _process_register(request.body)
-    return HttpResponse(str(uid))
+    ret = {id: uid}
+    return JsonResponse(ret)
 
 
-def _process_preferences(post_body, user_id):
+def _process_preferences(post_body, username):
     post = json.loads(post_body)
-    user = User.objects.get(id=user_id)
+    user = User.objects.get(email=username)
     # print(post["preference1"])
     preference = Preference(
         user=user,
@@ -57,12 +58,14 @@ def _process_preferences(post_body, user_id):
     )
     # print(preference)
     preference.save()
-    return user_id
+    return user.id
 
 
 # @csrf_exempt
-def preferences(request, user_id):
+def preferences(request, username):
+    username = username + "@gmail.com"
     pid = -1
     if request.method == "POST":
-        pid = _process_preferences(request.body, user_id)
-    return HttpResponse(str(pid))
+        pid = _process_preferences(request.body, username)
+    ret = {id: pid}
+    return JsonResponse(pid)
