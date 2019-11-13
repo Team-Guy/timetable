@@ -9,6 +9,7 @@ from schedule.models import *
 from scrapping.link import Link
 
 
+
 def convertToModel(ora):
     for grupa in ora.grupe:
         a = SchoolActivity(
@@ -16,12 +17,12 @@ def convertToModel(ora):
             professor=ora.profesor,
             location=ora.locatie,
             group=grupa,
+            day=ora.day,
             duration=ora.duration,
             frequency=ora.frequency,
             start_time=datetime.time(ora.startHour, 0, 0),
             type=ora.tip,
             priority=ora.priority,
-            day=ora.day
         )
         a.save()
 
@@ -53,6 +54,7 @@ def getInfo(link):
     # for zi in toate:
     #     for ora in zi:
     #         f.write(str(ora)+'\n')
+
 
 
 def getAll():
