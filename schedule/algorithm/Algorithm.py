@@ -1,23 +1,120 @@
-import collections
-
 from schedule.algorithm.Activity import Activity
 from schedule.algorithm.Date import Date
 import json
 import datetime
 
-# Version 1.x
-# TODO: 1. What to output
+# TODO: 1.1 Output | Blocked by input by Raul Burian
+# TODO: 1.2 Change input | Blocked by methods
 # TODO: 2. Filters
-# TODO: 3.  -Single exact data AND HIGH priority (Eg: Lab la care nu te lasa cu alte grupe, Dentist)
-# TODO:     -Data exacta AND HIGH priority => pusi primii in orar (Eg: Lab) - ACTUAL: HIGH to LOW
-# TODO:     -HIGH priority
-# TODO:     -Data AND LOW priority
-# TODO:     -LOW priority
-# Indici: toate orele in orar VS respectarea filterlor | astea sunt eventual cele 2 orare pe care le putem genera
-# Nu o sa se poata genera mai multe orare cu acelasi input.
+#           - Eg: max X hours per day | optional: few pauses
+#           between groups of activities
+#       3. Take into consideration the location of activities
+# ASK: 1. Some activities will have their fields changed, what will happen in the DB
+
+
+# Version 1.0
+#       Sort by priority the activities (HIGH -> LOW) and put them on the first available interval
+#       The same input will generate the same schedule (Greedy)
+
+# Version 2.0
+#       The sorting has been altered to:
+#       1. Single exact data AND HIGH priority (Eg: Lab la care nu te lasa cu alte grupe, Dentist)
+#       2. Date exacta AND HIGH priority => pusi primii in orar (Eg: Lab) - ACTUAL: HIGH to LOW
+#       3. HIGH priority
+#       4. Data AND LOW priority
+#       5. LOW priority
+
+#       DONE:
+#       Filter 1: fara activitati inainte/dupa de ora X per day
+
+#       NOTES:
+#       This algorithms sucks because: we will need to keep all ids of the activities that we group together and we will
+#       need to pay attention when we make the output to specify the correct
+
+#       The output will be 2 schedules:
+#       1. First one will put all the high priority activities and try to respect as many
+#       filters as possible. Will output the computed schedule and a list of activities that were not introduced and
+#       a list of filters that were violated in order to put the high priority activities.
+#       2. Second one will put all activities and try to respect as many filters as possible. Same output.
+#       The algorithm will take into account the location of activities when building the schedule
+
+filters_dict = {
+    1: {  # FILTRUL 1
+        'active': False,  # DACA E ACTIV FILTRUL 1
+        'before_x': {1: {'monday': 10, 'tuesday': 11},  # SAPTAMANA 1 CU ZILELE PENTRU CARE VREI SA MERGI DUPA X
+                     2: {'monday': 10, 'tuesday': 11}},
+        'after_x': {1: {'monday': 18, 'tuesday': 19},  # SAPTAMANA 1 CU ZILELE PENTRU CARE VREI SA MERGI INAINTE DE X
+                    2: {'monday': 18, 'tuesday': 19}}
+    }
+}
+
+
+def lock_program_filter_1(program, schedule_filters):
+    lock_before = schedule_filters['before_x']
+    lock_after = schedule_filters['after_x']
+    for p_week in lock_before.keys():
+        for p_day in lock_before[p_week].keys():
+            for p_interval in range(8, lock_before[p_week][p_day]):
+                program[p_week][p_day][p_interval] = 'blocked'
+
+    for p_week in lock_after.keys():
+        for p_day in lock_after[p_week].keys():
+            for p_interval in range(lock_after[p_week][p_day], 20):
+                program[p_week][p_day][p_interval] = 'blocked'
+
+
+def unlock_program_filter_1(program):
+    for p_week in program.keys():
+        for p_day in program[p_week].keys():
+            program[p_week][p_day] = {k: None if program[p_week][p_day][k] == 'blocked' else program[p_week][p_day][k]
+                                      for k in program[p_week][p_day].keys()}
+
+
+def exact_data(dates, ed_week):
+    if ed_week is None:
+        return False
+    for ed_data in dates:
+        if ed_data.day is None or ed_data.start_hour is None:
+            return False
+    return True
+
+
+def sort_activities(l_activities):
+    one_data_high_priority = {}
+    exact_data_high_priority = {}
+    high_priority = {}
+    exact_data_low_priority = {}
+    low_priority = {}
+    for s_activity in l_activities:
+        if len(l_activities[s_activity].dates) == 1 and l_activities[s_activity].priority == 3 and exact_data(
+                l_activities[s_activity].dates, l_activities[s_activity].week):
+            one_data_high_priority[s_activity] = l_activities[s_activity]
+        elif l_activities[s_activity].priority == 3 and exact_data(l_activities[s_activity].dates,
+                                                                   l_activities[s_activity].week):
+            exact_data_high_priority[s_activity] = l_activities[s_activity]
+        elif l_activities[s_activity].priority == 3:
+            high_priority[s_activity] = l_activities[s_activity]
+        elif l_activities[s_activity].priority == 1 and exact_data(l_activities[s_activity].dates,
+                                                                   l_activities[s_activity].week):
+            exact_data_low_priority[s_activity] = l_activities[s_activity]
+        else:
+            low_priority[s_activity] = l_activities[s_activity]
+    return_dict = dict(one_data_high_priority)
+    return_dict.update(exact_data_high_priority)
+    return_dict.update(high_priority)
+    return_dict.update(exact_data_low_priority)
+    return_dict.update(low_priority)
+    return return_dict
 
 
 def put_free(program, duration, msg):
+    """
+    Finds the first interval with the length equal to duration and puts the activity there.
+    :param program: The schedule that is the output of the algorithm - Dictionary
+    :param duration: The duration of the activity - Integer
+    :param msg: The activity to be put on the program  containing the name of the activity and the type - String
+    :return: 1 if the such an interval is found, else 0
+    """
     for p_week in program.keys():
         for p_day in program[p_week].keys():
             for p_hour in program[p_week][p_day].keys():
@@ -34,6 +131,14 @@ def put_free(program, duration, msg):
 
 
 def put_day(program, duration, a_day, msg):
+    """
+    Finds the first free interval (equal to the duration) in a specific day.
+    :param program: The schedule that is the output of the algorithm - Dictionary
+    :param duration: The duration of the activity - Integer
+    :param a_day: The day that the activity takes place - Expected value: {monday-friday} - String
+    :param msg: The activity to be put on the program  containing the name of the activity and the type - String
+    :return: 1 if the such an interval is found, else 0
+    """
     for p_week in program.keys():
         for p_hour in program[p_week][a_day].keys():
             empty = True
@@ -49,6 +154,15 @@ def put_day(program, duration, a_day, msg):
 
 
 def put_day_hour(program, duration, a_day, a_hour, msg):
+    """
+    Finds the week (1 or 2) that has a free interval for the activity
+    :param program: The schedule that is the output of the algorithm - Dictionary
+    :param duration: The duration of the activity - Integer
+    :param a_day: The day that the activity takes place - Expected value: {monday-friday} - String
+    :param a_hour: The start hour of the activity - Expected value: {8-19} - Integer
+    :param msg: The activity to be put on the program  containing the name of the activity and the type - String
+    :return: 1 if the such an interval is found, else 0
+    """
     for p_week in program.keys():
         empty = True
         for p_interval in range(a_hour, a_hour + duration):
@@ -63,6 +177,16 @@ def put_day_hour(program, duration, a_day, a_hour, msg):
 
 
 def put_week_day_hour(program, duration, a_week, a_day, a_hour, msg):
+    """
+    Tries to put the activity at a specific week, day, hour
+    :param program: The schedule that is the output of the algorithm - Dictionary
+    :param duration: The duration of the activity - Integer
+    :param a_week: The week that the activity takes place - Expected value: {1, 2} - Integer
+    :param a_day: The day that the activity takes place - Expected value: {monday-friday} - String
+    :param a_hour: The start hour of the activity - Expected value: {8-19} - Integer
+    :param msg: The activity to be put on the program  containing the name of the activity and the type - String
+    :return: 1 if the such an interval is found, else 0
+    """
     for p_interval in range(a_hour, a_hour + duration):
         if program[a_week][a_day][p_interval] is not None:
             return 0
@@ -71,20 +195,41 @@ def put_week_day_hour(program, duration, a_week, a_day, a_hour, msg):
     return 1
 
 
-def output_json(schedule):
-    output = {}
-    for o_week in schedule.keys():
-        output[o_week] = {}
-        for o_day in schedule[o_week]:
-            output[o_week][o_day] = {}
-            for hour in schedule[o_week][o_day]:
-                if schedule[o_week][o_day][hour] is not None:
-                    output[o_week][o_day] = schedule[o_week][o_day][hour]
-    return output
+def put_week_day(program, duration, a_week, a_day, msg):
+    for p_hour in program[a_week][a_day].keys():
+        empty = True
+        for p_interval in range(p_hour, p_hour + duration):
+            if program[a_week][a_day][p_interval] is not None:
+                empty = False
+                break
+        if empty:
+            for p_interval in range(p_hour, p_hour + duration):
+                program[a_week][a_day][p_interval] = msg
+            return 1
+    return 0
+
+
+def put_week(program, duration, a_week, msg):
+    for p_day in program[a_week].keys():
+        for p_hour in program[a_week][p_day].keys():
+            empty = True
+            for p_interval in range(p_hour, p_hour + duration):
+                if program[a_week][p_day][p_interval] is not None:
+                    empty = False
+                    break
+            if empty:
+                for p_interval in range(p_hour, p_hour + duration):
+                    program[a_week][p_day][p_interval] = msg
+                return 1
+    return 0
 
 
 activities = {}
 days_of_week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+
+"""
+Reading from a json
+"""
 
 with open('input.txt') as json_file:
     data = json.load(json_file)
@@ -94,7 +239,10 @@ for week in data:
         for activity in data[week][day]:
             name = activity['title']
             a_type = activity['type']
-            start_time = datetime.time(int(activity['start_time'].split(":")[0])).hour
+            if activity['start_time'] == "-":
+                start_time = None
+            else:
+                start_time = datetime.time(int(activity['start_time'].split(":")[0])).hour
             date = Date(day, start_time, activity['duration'], activity['location'])
             if (name, a_type, week) in activities.keys():
                 activities[(name, a_type, week)].dates.append(date)
@@ -111,9 +259,14 @@ for week in data:
                 activities[(name, a_type, week)] = Activity(name=name, activity_type=a_type, dates=[date],
                                                             priority=priority, week=week, activity_id=activity['id'])
 
+"""
+Building some useful objects
+"""
+
 intervals = {}
 for i in range(8, 20):
     intervals[i] = None
+# intervals['-'] = None
 
 weeks = {1: {'monday': intervals.copy(), 'tuesday': intervals.copy(), 'wednesday': intervals.copy(),
              'thursday': intervals.copy(), 'friday': intervals.copy()},
@@ -121,30 +274,63 @@ weeks = {1: {'monday': intervals.copy(), 'tuesday': intervals.copy(), 'wednesday
              'thursday': intervals.copy(), 'friday': intervals.copy()}
          }
 
+# activities = sorted(activities.items(), key=lambda kv: kv[1].priority, reverse=True)
+activities = sort_activities(activities)
+# activities = collections.OrderedDict(activities)
 
-activities = sorted(activities.items(), key=lambda kv: kv[1].priority, reverse=True)
 
-# noinspection PyTypeChecker
-activities = collections.OrderedDict(activities)
+def put_in_program(a_activity, a_activities, a_weeks):
+    result = 0
+    for p_date in a_activities[a_activity].dates:
+        if a_activities[a_activity].week is None:
+            if p_date.day is None:
+                if p_date.start_hour is None:
+                    result = put_free(a_weeks, p_date.duration,
+                                      a_activities[a_activity].name + " " + a_activities[a_activity].type)
+            else:
+                if p_date.startHour is None:
+                    result = put_day(a_weeks, p_date.duration, p_date.day,
+                                     a_activities[a_activity].name + " " + a_activities[a_activity].type)
+                else:
+                    result = put_day_hour(a_weeks, p_date.duration, p_date.day, p_date.start_hour,
+                                          a_activities[a_activity].name + a_activities[a_activity].type)
+        elif a_activities[a_activity].week is not None:
+            if p_date.day is None:
+                if p_date.start_hour is None:
+                    result = put_week(a_weeks, p_date.duration, a_activities[a_activity].week,
+                                      str(a_activities[a_activity].id) + "|" +
+                                      str(a_activities[a_activity].week))
+            else:
+                if p_date.start_hour is not None:
+                    result = put_week_day_hour(a_weeks, p_date.duration, a_activities[a_activity].week, p_date.day,
+                                               p_date.start_hour,
+                                               str(a_activities[a_activity].id) + "|" + str(
+                                                   a_activities[a_activity].week))
+                else:
+                    result = put_week_day(a_weeks, p_date.duration, a_activities[a_activity].week, p_date.day,
+                                          str(a_activities[a_activity].id) + "|" + str(a_activities[a_activity].week))
+        if result == 1:
+            return result
+    return result
+
+
+"""
+Core of the algorithm
+Tries to put an activity in the program. If there is no information about when the activity should take place, the
+algorithm puts the activity on the first free available interval. If a day is specified it will try to put the activity
+in that day either on week 1 or 2 
+"""
+if filters_dict[1]['active']:
+    lock_program_filter_1(weeks, filters_dict[1])
 
 
 for activity in activities:
-    for date in activities[activity].dates:
-        if activities[activity].week is None:
-            if date.day is None:
-                if date.start_hour is None:
-                    put_free(weeks, date.duration, activities[activity].name + " " + activities[activity].type)
-            else:
-                if date.startHour is None:
-                    put_day(weeks, date.duration, date.day, activities[activity].name + " " + activities[activity].type)
-                else:
-                    put_day_hour(weeks, date.duration, date.day, date.start_hour,
-                                 activities[activity].name + activities[activity].type)
-
-        elif weeks[activities[activity].week][date.day][date.start_hour] is None:
-            put_week_day_hour(weeks, date.duration, activities[activity].week, date.day, date.start_hour,
-                              str(activities[activity].id) + "|" + str(activities[activity].week))
-            break
+    found = 0
+    found += put_in_program(activity, activities, weeks)
+    if found == 0 and filters_dict[1]['active']:
+        unlock_program_filter_1(weeks)
+        put_in_program(activity, activities, weeks)
+        lock_program_filter_1(weeks, filters_dict[1])
 
 with open('output.txt', 'w') as outfile:
     json.dump(weeks, outfile)

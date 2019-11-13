@@ -1,6 +1,16 @@
 class Date:
+    """
+    The class Date is used to store all the information about an activity
+    """
 
     def __init__(self, day=None, start_hour=None, duration=None, location=None):
+        """
+        The only constructor for Date class
+        :param day: Day of the activity. Expected values: {monday, tuesday, wednesday, thursday, friday} - String
+        :param start_hour: The hour that the activity begins. Expected values: {from 8 to 19} - Integer
+        :param duration: The duration of an activity. Minimum 1. - Integer
+        :param location: The location where the activity unfolds. - String
+        """
         if day is None or day == '-':
             self._day = None
         else:
@@ -21,6 +31,11 @@ class Date:
 
     @staticmethod
     def x_str(s):
+        """
+        Used if one or more information about the activity is missing.
+        :param s: The string
+        :return: '-' if the string is None, else str(string)
+        """
         if s is None:
             return '-'
         return str(s)
