@@ -26,7 +26,6 @@ class ExtraActivity(Activity):
 
 class SchoolActivity(Activity):
     type = CharField(max_length=30)
-    day = CharField(max_length=30)
     professor = CharField(max_length=255)
     group = CharField(max_length=10)
 

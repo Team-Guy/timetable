@@ -2,8 +2,12 @@ from django.forms import model_to_dict
 from django.http import HttpResponse, JsonResponse
 # Create your views here.
 from rest_framework.decorators import api_view
+from rest_framework import viewsets
+from . import serializers
 
 from schedule.models import UserSchoolActivity
+from schedule.models import SchoolActivity
+from schedule.models import ExtraActivity
 
 
 @api_view(['GET'])
@@ -42,3 +46,13 @@ def user_schedule(request, username):
 def index(request):
     # getInfo(Link.IE2)
     return HttpResponse("yay")
+
+
+class SchoolActivityViewset(viewsets.ModelViewSet):
+    queryset = SchoolActivity.objects.all()
+    serializer_class = serializers.SchoolActivitySerializer
+
+
+class ExtraActivityViewset(viewsets.ModelViewSet):
+    queryset = ExtraActivity.objects.all()
+    serializers_class = serializers.ExtraActivitySerializer
