@@ -10,4 +10,4 @@ from scrapping.serie import Serie
 
 def index(request):
     # getAll()
-    return HttpResponse()
+    return HttpResponse("yay")

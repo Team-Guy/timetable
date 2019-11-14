@@ -2,7 +2,7 @@ from authentication.models import Preference
 from dbutils.to_string import auto_str
 
 
-
+@auto_str
 class Pref:
 
     def __init__(self, pref: Preference):

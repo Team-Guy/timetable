@@ -3,7 +3,7 @@ from schedule.models import ExtraActivity
 
 
 
-
+@auto_str
 class ExtraFacActivity:
 
     def __init__(self, activity: ExtraActivity):

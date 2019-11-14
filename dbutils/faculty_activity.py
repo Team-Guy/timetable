@@ -1,7 +1,7 @@
 from dbutils.to_string import auto_str
 from schedule.models import SchoolActivity
 
-
+@auto_str
 class FacultyActivity:
 
     def __init__(self, activity: SchoolActivity):
