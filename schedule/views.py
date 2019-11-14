@@ -48,3 +48,35 @@ def user_schedule(request, username):
 def index(request):
     # getInfo(Link.IE2)
     return HttpResponse("yay")
+
+@api_view(['GET'])
+def user_extra_schedule(request, username):
+    odd_days_dict = dict(
+        monday=list(),
+        tuesday=list(),
+        wednesday=list(),
+        thursday=list(),
+        friday=list()
+    )
+    even_days_dict = dict(
+        monday=list(),
+        tuesday=list(),
+        wednesday=list(),
+        thursday=list(),
+        friday=list()
+    )
+    to_return = {1: odd_days_dict, 2: even_days_dict}
+    extra_act_qs = UserExtraActivity.objects.filter(user__email=f'{username}@gmail.com')
+    for user_extra_activity in extra_act_qs:
+        extra_activity_dict = model_to_dict(user_extra_activity.extra_activity)
+        frequency = extra_activity_dict.pop('frequency')
+        day = extra_activity_dict.pop('day').lower()
+        if frequency == 'full':
+            to_return[1][day].append(extra_activity_dict)
+            to_return[2][day].append(extra_activity_dict)
+        elif frequency == 'even':
+            to_return[2][day].append(extra_activity_dict)
+        else:
+            to_return[1][day].append(extra_activity_dict)
+
+    return JsonResponse(data=to_return)
