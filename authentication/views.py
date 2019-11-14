@@ -34,7 +34,7 @@ def _process_register(post_body):
     return user.uid
 
 
-# @csrf_exempt
+@csrf_exempt
 def register(request):
     uid = -1
     if request.method == "POST":
@@ -61,7 +61,7 @@ def _process_preferences(post_body, username):
     return user.id
 
 
-# @csrf_exempt
+@csrf_exempt
 def preferences(request, username):
     username = username + "@gmail.com"
     pid = -1
@@ -96,11 +96,11 @@ def _process_optionals(post_body, username):
     return 1
 
 
-# @csrf_exempt
+@csrf_exempt
 def optionals(request, username):
     username = username + "@gmail.com"
     rid = -1
     if request.method == "POST":
-        pid = _process_optionals(request.body, username)
+        rid = _process_optionals(request.body, username)
     ret = {"id": rid}
     return JsonResponse(ret)

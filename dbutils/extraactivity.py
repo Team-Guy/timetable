@@ -1,9 +1,10 @@
 from schedule.models import ExtraActivity
 
 
-class ExtraActivity:
+class ExtraFacActivity:
 
     def __init__(self, activity: ExtraActivity):
+        self.id = activity.id
         self.title = activity.title
         self.priority = activity.priority
         self.day = activity.day

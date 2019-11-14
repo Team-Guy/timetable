@@ -4,6 +4,7 @@ from schedule.models import SchoolActivity
 class FacultyActivity:
 
     def __init__(self, activity: SchoolActivity):
+        self.id = activity.id
         self.title = activity.title
         self.type = activity.type
         self.priority = activity.priority
