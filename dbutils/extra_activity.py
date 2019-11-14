@@ -1,17 +1,18 @@
-from schedule.models import SchoolActivity
+from dbutils.to_string import auto_str
+from schedule.models import ExtraActivity
 
 
-class FacultyActivity:
 
-    def __init__(self, activity: SchoolActivity):
+
+class ExtraFacActivity:
+
+    def __init__(self, activity: ExtraActivity):
         self.id = activity.id
         self.title = activity.title
-        self.type = activity.type
         self.priority = activity.priority
         self.day = activity.day
         self.frequency = activity.frequency
         self.duration = activity.duration
-        self.professor = activity.professor
-        self.group = activity.group
         self.location = activity.location
         self.start_time = activity.start_time
+        self.description = activity.description

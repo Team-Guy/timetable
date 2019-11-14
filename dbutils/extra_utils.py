@@ -1,5 +1,5 @@
 from schedule.models import User, UserExtraActivity, ExtraActivity
-from .extraactivity import ExtraFacActivity
+from .extra_activity import ExtraFacActivity
 
 
 def get_extra_activities(username):

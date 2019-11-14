@@ -1,4 +1,6 @@
 from authentication.models import Preference
+from dbutils.to_string import auto_str
+
 
 
 class Pref:
