@@ -1,5 +1,7 @@
 from django.core.management import BaseCommand
 
+from scrapping.main import getAll
+
 
 class Command(BaseCommand):
     help = 'Start the scraper for the ubb timetable'
@@ -8,4 +10,6 @@ class Command(BaseCommand):
         pass
 
     def handle(self, *args, **options):
-        self.stdout.write('Importing ...')
+        self.stdout.write('Started importing the subjects...')
+        getAll()
+        self.stdout.write('Finished importing the subjects...')
