@@ -1,10 +1,14 @@
-from django.urls import path
-import schedule.views
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
-import schedule.views
+from schedule import views
+
+router = DefaultRouter()
+router.register('school_act', views.SchoolActivityViewset, base_name='school_activity')
+router.register('extra_act', views.ExtraActivityViewset, base_name='extra_activity')
 
 urlpatterns = [
-    path('', schedule.views.index),
-    path('<str:username>', schedule.views.user_schedule)
+    path('', views.index),
+    path('<str:username>', views.user_schedule),
+    path('', include(router.urls))
 ]

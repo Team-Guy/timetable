@@ -2,9 +2,11 @@ from django.forms import model_to_dict
 from django.http import HttpResponse, JsonResponse
 
 # Create your views here.
+from rest_framework import viewsets
 from rest_framework.decorators import api_view
 
-from schedule.models import UserSchoolActivity
+from schedule.models import UserSchoolActivity, SchoolActivity, ExtraActivity
+from schedule.serializers import SchoolActivitySerializer, ExtraActivitySerializer
 
 
 @api_view(['GET'])
@@ -38,6 +40,16 @@ def user_schedule(request, username):
             to_return[1][day].append(activity_dict)
 
     return JsonResponse(data=to_return)
+
+
+class SchoolActivityViewset(viewsets.ModelViewSet):
+    queryset = SchoolActivity.objects.all()
+    serializer_class = SchoolActivitySerializer
+
+
+class ExtraActivityViewset(viewsets.ModelViewSet):
+    queryset = ExtraActivity.objects.all()
+    serializer_class = ExtraActivitySerializer
 
 
 def index(request):
