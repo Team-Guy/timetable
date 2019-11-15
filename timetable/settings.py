@@ -75,9 +75,7 @@ WSGI_APPLICATION = 'timetable.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(conn_max_age=500,
-                                   default='postgres://jnhuxxnzsrezge:6eb9647128912e3fb71da7f5042f7c5ba38f9fce21ecf34ff'
-                                           '39574cf1ea11c54@ec2-176-34-184-174.eu-west-1.compute.amazonaws.com:5432/d2m'
-                                           'ab76vb5ahsv'),
+                                      default='postgres://mldhgncuosnynx:6cb03a2ec8d231d711352151685d7f1786e09e66f85fb984566db829afa9f037@ec2-174-129-214-42.compute-1.amazonaws.com:5432/d9v90f5gm67flu'),
     'prod': dj_database_url.config(conn_max_age=500,
                                    default='postgres://jnhuxxnzsrezge:6eb9647128912e3fb71da7f5042f7c5ba38f9fce21ecf34ff'
                                            '39574cf1ea11c54@ec2-176-34-184-174.eu-west-1.compute.amazonaws.com:5432/d2m'
