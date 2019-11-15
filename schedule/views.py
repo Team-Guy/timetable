@@ -49,11 +49,13 @@ def get_activities(activity_type: str, username: str):
     to_return = {1: odd_days_dict, 2: even_days_dict}
     if activity_type == 'school':
         model = UserSchoolActivity
+        to_convert = 'school_activity'
     else:
+        to_convert = 'extra_activity'
         model = UserExtraActivity
     school_act_qs = model.objects.filter(user__email=f'{username}@gmail.com')
     for user_activity in school_act_qs:
-        activity_dict = model_to_dict(user_activity.school_activity)
+        activity_dict = model_to_dict(getattr(user_activity, to_convert))
         frequency = activity_dict.pop('frequency')
         day = activity_dict.pop('day').lower()
         if frequency == 'full':
