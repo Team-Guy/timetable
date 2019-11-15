@@ -1,7 +1,6 @@
 from django.core.management import BaseCommand
 
-from scrapping.Link import Link
-from scrapping.main import getInfo
+from scrapping.main import getAll
 
 
 class Command(BaseCommand):
@@ -11,5 +10,6 @@ class Command(BaseCommand):
         pass
 
     def handle(self, *args, **options):
-        for data in Link.all:
-            getInfo(data)
+        self.stdout.write('Started importing the subjects...')
+        getAll()
+        self.stdout.write('Finished importing the subjects...')

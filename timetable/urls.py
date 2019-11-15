@@ -21,5 +21,6 @@ from schedule.views import health
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('health/', health),
-    path('schedule/', include('schedule.urls'))
+    path('schedule/', include('schedule.urls')),
+    path('auth/', include('authentication.urls'))
 ]

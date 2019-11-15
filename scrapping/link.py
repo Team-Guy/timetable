@@ -11,4 +11,5 @@ class Link:
     MIE1 = 'http://www.cs.ubbcluj.ro/files/orar/2019-1/grafic/MIE1.html'
     MIE2 = 'http://www.cs.ubbcluj.ro/files/orar/2019-1/grafic/MIE2.html'
     MIE3 = 'http://www.cs.ubbcluj.ro/files/orar/2019-1/grafic/MIE3.html'
-    all = [I1, I2, I3, IE1, IE2, IE3, MI1, MI2, MI3, MIE1, MIE2, MIE3]
+
+    LINKS = [I1, I2, I3, IE1, IE2, IE3, MI1, MI2, MI3, MIE1, MIE2, MIE3]

@@ -3,12 +3,10 @@ import datetime
 import requests
 from bs4 import BeautifulSoup
 
-from scrapping.Day import Day
-from scrapping.Processor import *
-from scrapping.Link import Link
-from django.db.models import Model
-from django.db import models
 from schedule.models import *
+from scrapping.day import Day
+from scrapping.link import Link
+from scrapping.processor import *
 
 
 def convertToModel(ora):
@@ -18,12 +16,12 @@ def convertToModel(ora):
             professor=ora.profesor,
             location=ora.locatie,
             group=grupa,
-            day=ora.day,
             duration=ora.duration,
             frequency=ora.frequency,
             start_time=datetime.time(ora.startHour, 0, 0),
             type=ora.tip,
-            priority=ora.priority
+            priority=ora.priority,
+            day=ora.day
         )
         a.save()
 
@@ -48,9 +46,10 @@ def getInfo(link):
         toate.append(processDay(rows[:12], day, groups))
         rows.pop(0)
         rows = rows[12:]
-    # processDay(rows[:12],Day.MONDAY)
     convertToModels(toate)
-    # f=open("ore.out","w")
-    # for zi in toate:
-    #     for ora in zi:
-    #         f.write(str(ora)+'\n')
+
+
+def getAll():
+    SchoolActivity.objects.all().delete()
+    for link in Link.LINKS:
+        getInfo(link)

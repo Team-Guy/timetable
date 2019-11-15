@@ -3,12 +3,14 @@ from django.db.models import Model, CharField, TimeField, IntegerField, TextFiel
 
 
 class User(Model):
+    uid = CharField(unique=True, max_length=255)
     email = EmailField(unique=True)
     name = CharField(max_length=255)
     group = CharField(max_length=10)
+    photo_url = CharField(max_length=255)
 
 
-class Activity(Model):
+class SchoolActivity(Model):
     title = CharField(max_length=255)
     location = CharField(max_length=255)
     start_time = TimeField()
@@ -18,14 +20,15 @@ class Activity(Model):
     priority = CharField(max_length=30)
 
 
-class ExtraActivity(Activity):
+class ExtraActivity(Model):
+    title = CharField(max_length=255)
+    location = CharField(max_length=255)
+    start_time = TimeField()
+    day = CharField(max_length=15)
+    duration = IntegerField(default=2)
+    frequency = CharField(max_length=5)
+    priority = CharField(max_length=30)
     description = TextField()
-
-
-class SchoolActivity(Activity):
-    type = CharField(max_length=30)
-    professor = CharField(max_length=255)
-    group = CharField(max_length=10)
 
 
 class UserSchoolActivity(Model):
