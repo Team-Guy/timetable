@@ -1,12 +1,12 @@
 import datetime
-import time
+
 import requests
 from bs4 import BeautifulSoup
 
-from scrapping.day import Day
-from scrapping.processor import *
 from schedule.models import *
+from scrapping.day import Day
 from scrapping.link import Link
+from scrapping.processor import *
 
 
 def convertToModel(ora):

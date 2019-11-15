@@ -2,7 +2,6 @@ from dbutils.to_string import auto_str
 from schedule.models import ExtraActivity
 
 
-
 @auto_str
 class ExtraFacActivity:
 
