@@ -10,5 +10,6 @@ router.register('extra_act', views.ExtraActivityViewset, base_name='extra_activi
 urlpatterns = [
     path('', views.index),
     path('<str:username>', views.user_schedule),
+    path('<str:username>/extra', views.user_extra_schedule),
     path('', include(router.urls))
 ]
