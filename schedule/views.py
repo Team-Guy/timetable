@@ -1,18 +1,37 @@
 from django.forms import model_to_dict
-from django.http import HttpResponse, JsonResponse
-
+from django.http import JsonResponse
 # Create your views here.
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 from schedule.models import UserSchoolActivity, SchoolActivity, ExtraActivity, UserExtraActivity
 from schedule.serializers import SchoolActivitySerializer, ExtraActivitySerializer
 
 
-@api_view(['GET'])
-def user_schedule(request, username):
-    to_return = get_activities('school', username)
-    return JsonResponse(data=to_return)
+class UserSchedule(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, username):
+        to_return = get_activities('school', username)
+        return JsonResponse(data=to_return)
+
+
+class UserExtraSchedule(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, username):
+        to_return = get_activities('extra', username)
+        return JsonResponse(data=to_return)
+
+
+class HelloView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self):
+        content = {'message': 'Hello, World!'}
+        return JsonResponse(content)
 
 
 class SchoolActivityViewset(viewsets.ModelViewSet):
@@ -23,12 +42,6 @@ class SchoolActivityViewset(viewsets.ModelViewSet):
 class ExtraActivityViewset(viewsets.ModelViewSet):
     queryset = ExtraActivity.objects.all()
     serializer_class = ExtraActivitySerializer
-
-
-@api_view(['GET'])
-def user_extra_schedule(request, username):
-    to_return = get_activities('extra', username)
-    return JsonResponse(data=to_return)
 
 
 def get_activities(activity_type: str, username: str):
@@ -66,7 +79,3 @@ def get_activities(activity_type: str, username: str):
         else:
             to_return[1][day].append(activity_dict)
     return to_return
-
-
-def index(request):
-    return HttpResponse("yay")

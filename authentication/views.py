@@ -1,46 +1,50 @@
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from dbutils.optional import Optional
-from authentication.models import Preference
-from schedule.models import User, UserSchoolActivity, SchoolActivity
 import json
+
+from django.http import JsonResponse
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
+from authentication.models import Preference
+from dbutils.optional import Optional
+from schedule.models import User, UserSchoolActivity, SchoolActivity
 
 
 # Create your views here.
 
 
-def _process_register(post_body):
-    post = json.loads(post_body)
-    print(post)
-    # User.objects.all().delete()
-    user = User(
-        uid=post["uid"],
-        name=post["name"],
-        group=post["group"],
-        email=post["email"],
-        photo_url=post["photo"]
-    )
-    user.save()
-    pref = Preference(
-        user=user,
-        preference1=False,
-        preference2=False,
-        preference3=False,
-        preference1_prio='LOW',
-        preference2_prio='LOW',
-        preference3_prio='LOW'
-    )
-    pref.save()
-    return user.uid
+class RegisterView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        uid = -1
+        if request.method == "POST":
+            uid = _process_register(request.body)
+        ret = {"id": uid}
+        return JsonResponse(ret)
 
 
-@csrf_exempt
-def register(request):
-    uid = -1
-    if request.method == "POST":
-        uid = _process_register(request.body)
-    ret = {"id": uid}
-    return JsonResponse(ret)
+class PreferencesView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, username):
+        username = username + "@gmail.com"
+        pid = -1
+        if request.method == "POST":
+            pid = _process_preferences(request.body, username)
+        ret = {"id": pid}
+        return JsonResponse(ret)
+
+
+class OptionalsView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, username):
+        username = username + "@gmail.com"
+        rid = -1
+        if request.method == "POST":
+            rid = _process_optionals(request.body, username)
+        ret = {"id": rid}
+        return JsonResponse(ret)
 
 
 def _process_preferences(post_body, username):
@@ -59,16 +63,6 @@ def _process_preferences(post_body, username):
     # print(preference)
     preference.save()
     return user.id
-
-
-@csrf_exempt
-def preferences(request, username):
-    username = username + "@gmail.com"
-    pid = -1
-    if request.method == "POST":
-        pid = _process_preferences(request.body, username)
-    ret = {"id": pid}
-    return JsonResponse(ret)
 
 
 def _process_optionals(post_body, username):
@@ -96,11 +90,26 @@ def _process_optionals(post_body, username):
     return 1
 
 
-@csrf_exempt
-def optionals(request, username):
-    username = username + "@gmail.com"
-    rid = -1
-    if request.method == "POST":
-        rid = _process_optionals(request.body, username)
-    ret = {"id": rid}
-    return JsonResponse(ret)
+def _process_register(post_body):
+    post = json.loads(post_body)
+    print(post)
+    # User.objects.all().delete()
+    user = User(
+        uid=post["uid"],
+        name=post["name"],
+        group=post["group"],
+        email=post["email"],
+        photo_url=post["photo"]
+    )
+    user.save()
+    pref = Preference(
+        user=user,
+        preference1=False,
+        preference2=False,
+        preference3=False,
+        preference1_prio='LOW',
+        preference2_prio='LOW',
+        preference3_prio='LOW'
+    )
+    pref.save()
+    return user.uid
