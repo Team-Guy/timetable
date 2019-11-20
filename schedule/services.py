@@ -1,8 +1,8 @@
-from typing import List, Dict
+from schedule.algorithm.Algorithm import run
 
 
 class Scheduler:
 
-    def compute(self, activites: List[Dict]):
-        # TODO: Algorithm :D
-        pass
+    @staticmethod
+    def compute():
+        return run()
