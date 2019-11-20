@@ -35,6 +35,12 @@ def user_extra_schedule(request, username):
     return JsonResponse(data=to_return)
 
 
+@api_view(['GET'])
+def testalgo(request):
+    print("1")
+    return JsonResponse(Scheduler.compute())
+
+
 def get_activities(activity_type: str, username: str):
     odd_days_dict = dict(
         monday=list(),
@@ -73,6 +79,4 @@ def get_activities(activity_type: str, username: str):
 
 
 def index(request):
-    # getAll()
-    # activities = get_faculty_activities(spec=Serie.IE3)
     return JsonResponse(Scheduler.compute())

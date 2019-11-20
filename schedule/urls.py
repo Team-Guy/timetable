@@ -11,5 +11,6 @@ urlpatterns = [
     path('', views.index),
     path('<str:username>', views.user_schedule),
     path('<str:username>/extra', views.user_extra_schedule),
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path('algo', views.testalgo)
 ]
