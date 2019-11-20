@@ -1,8 +1,14 @@
-from schedule.algorithm.Activity import Activity
-from schedule.algorithm.Date import Date
-import json
-import datetime
 from dbutils.school_utils import get_faculty_activities
+from schedule.algorithm.activity import Activity
+from schedule.algorithm.date import Date
+#       The output will be 2 schedules:
+#       1. First one will put all the high priority activities and try to respect as many
+#       filters as possible. Will output the computed schedule and a list of activities that were not introduced and
+#       a list of filters that were violated in order to put the high priority activities.
+#       2. Second one will put all activities and try to respect as many filters as possible. Same output.
+#       The algorithm will take into account the location of activities when building the schedule
+from scrapping.serie import Serie
+
 
 # TODO: 1.1 Output | Blocked by input by Raul Burian
 # TODO: 1.2 Change input | Blocked by methods
@@ -13,12 +19,9 @@ from dbutils.school_utils import get_faculty_activities
 # TODO: 4. Output dictionary Fac: Week1, Week2   with objects as values
 #                            Extra: Week1, Week2
 # ASK: 1. Some activities will have their fields changed, what will happen in the DB
-
-
 # Version 1.0
 #       Sort by priority the activities (HIGH -> LOW) and put them on the first available interval
 #       The same input will generate the same schedule (Greedy)
-
 # Version 2.0
 #       The sorting has been altered to:
 #       1. Single exact data AND HIGH priority (Eg: Lab la care nu te lasa cu alte grupe, Dentist)
@@ -26,21 +29,11 @@ from dbutils.school_utils import get_faculty_activities
 #       3. HIGH priority
 #       4. Data AND LOW priority
 #       5. LOW priority
-
 #       DONE:
 #       Filter 1: fara activitati inainte /dupa de ora X per day
-
 #       NOTES:
 #       This algorithms sucks because: we will need to keep all ids of the activities that we group together and we will
 #       need to pay attention when we make the output to specify the correct
-
-#       The output will be 2 schedules:
-#       1. First one will put all the high priority activities and try to respect as many
-#       filters as possible. Will output the computed schedule and a list of activities that were not introduced and
-#       a list of filters that were violated in order to put the high priority activities.
-#       2. Second one will put all activities and try to respect as many filters as possible. Same output.
-#       The algorithm will take into account the location of activities when building the schedule
-from scrapping.serie import Serie
 
 
 def lock_program_filter_1(program, schedule_filters):

@@ -1,4 +1,4 @@
-from schedule.algorithm.Algorithm import run
+from schedule.algorithm.algorithm import run
 
 
 class Scheduler:
