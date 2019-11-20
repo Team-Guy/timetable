@@ -5,8 +5,12 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 
+from dbutils.school_utils import get_faculty_activities
 from schedule.models import UserSchoolActivity, SchoolActivity, ExtraActivity, UserExtraActivity
 from schedule.serializers import SchoolActivitySerializer, ExtraActivitySerializer
+from schedule.services import Scheduler
+from scrapping.main import getAll
+from scrapping.serie import Serie
 
 
 @api_view(['GET'])
@@ -69,4 +73,6 @@ def get_activities(activity_type: str, username: str):
 
 
 def index(request):
-    return HttpResponse("yay")
+    # getAll()
+    # activities = get_faculty_activities(spec=Serie.IE3)
+    return JsonResponse(Scheduler.compute())

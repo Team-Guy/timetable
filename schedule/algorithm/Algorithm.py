@@ -2,6 +2,7 @@ from schedule.algorithm.Activity import Activity
 from schedule.algorithm.Date import Date
 import json
 import datetime
+from dbutils.school_utils import get_faculty_activities
 
 # TODO: 1.1 Output | Blocked by input by Raul Burian
 # TODO: 1.2 Change input | Blocked by methods
@@ -9,6 +10,8 @@ import datetime
 #           - Eg: max X hours per day | optional: few pauses
 #           between groups of activities
 #       3. Take into consideration the location of activities
+# TODO: 4. Output dictionary Fac: Week1, Week2   with objects as values
+#                            Extra: Week1, Week2
 # ASK: 1. Some activities will have their fields changed, what will happen in the DB
 
 
@@ -37,16 +40,7 @@ import datetime
 #       a list of filters that were violated in order to put the high priority activities.
 #       2. Second one will put all activities and try to respect as many filters as possible. Same output.
 #       The algorithm will take into account the location of activities when building the schedule
-
-filters_dict = {
-    1: {  # FILTRUL 1
-        'active': True,  # DACA E ACTIV FILTRUL 1
-        'before_x': {1: {'monday': 10, 'tuesday': 11},  # SAPTAMANA 1 CU ZILELE PENTRU CARE VREI SA MERGI DUPA X
-                     2: {'monday': 10, 'tuesday': 11}},
-        'after_x': {1: {'monday': 18, 'tuesday': 19},  # SAPTAMANA 1 CU ZILELE PENTRU CARE VREI SA MERGI INAINTE DE X
-                    2: {'monday': 18, 'tuesday': 19}}
-    }
-}
+from scrapping.serie import Serie
 
 
 def lock_program_filter_1(program, schedule_filters):
@@ -226,62 +220,6 @@ def put_week(program, duration, a_week, msg):
     return 0
 
 
-activities = {}
-days_of_week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
-
-"""
-Reading from a json
-"""
-
-with open('input.txt') as json_file:
-    data = json.load(json_file)
-
-for week in data:
-    for day in data[week]:
-        for activity in data[week][day]:
-            name = activity['title']
-            a_type = activity['type']
-            if activity['start_time'] == "-":
-                start_time = None
-            else:
-                start_time = datetime.time(int(activity['start_time'].split(":")[0])).hour
-            date = Date(day, start_time, activity['duration'], activity['location'])
-            if (name, a_type, week) in activities.keys():
-                activities[(name, a_type, week)].dates.append(date)
-                activities[(name, a_type, week)].ids.append(activity['id'])
-            else:
-                priority = activity['priority']
-                if priority == "HIGH":
-                    priority = 3
-                elif priority == "MEDIUM":
-                    priority = 2
-                elif priority == "LOW":
-                    priority = 1
-                else:
-                    priority = 0
-                activities[(name, a_type, week)] = Activity(name=name, activity_type=a_type, dates=[date],
-                                                            priority=priority, week=week, activity_id=activity['id'])
-
-"""
-Building some useful objects
-"""
-
-intervals = {}
-for i in range(8, 20):
-    intervals[i] = None
-# intervals['-'] = None
-
-weeks = {1: {'monday': intervals.copy(), 'tuesday': intervals.copy(), 'wednesday': intervals.copy(),
-             'thursday': intervals.copy(), 'friday': intervals.copy()},
-         2: {'monday': intervals.copy(), 'tuesday': intervals.copy(), 'wednesday': intervals.copy(),
-             'thursday': intervals.copy(), 'friday': intervals.copy()}
-         }
-
-# activities = sorted(activities.items(), key=lambda kv: kv[1].priority, reverse=True)
-activities = sort_activities(activities)
-# activities = collections.OrderedDict(activities)
-
-
 def put_in_program(a_activity, a_activities, a_weeks):
     result = 0
     for p_date in a_activities[a_activity].dates:
@@ -319,28 +257,136 @@ def put_in_program(a_activity, a_activities, a_weeks):
     return result
 
 
-"""
-Core of the algorithm
-Tries to put an activity in the program. If there is no information about when the activity should take place, the
-algorithm puts the activity on the first free available interval. If a day is specified it will try to put the activity
-in that day either on week 1 or 2 
-"""
-if filters_dict[1]['active']:
-    lock_program_filter_1(weeks, filters_dict[1])
+def run():
 
-bypassed_filters = []
+    filters_dict = {
+        1: {  # FILTRUL 1
+            'active': True,  # DACA E ACTIV FILTRUL 1
+            'before_x': {1: {'Monday': 10, 'Tuesday': 11},  # SAPTAMANA 1 CU ZILELE PENTRU CARE VREI SA MERGI DUPA X
+                         2: {'Monday': 10, 'Tuesday': 11}},
+            'after_x': {1: {'Monday': 18, 'Tuesday': 19},
+                        # SAPTAMANA 1 CU ZILELE PENTRU CARE VREI SA MERGI INAINTE DE X
+                        2: {'Monday': 18, 'Tuesday': 19}}
+        }
+    }
 
-for activity in activities:
-    found = 0
-    found += put_in_program(activity, activities, weeks)
-    if found == 0 and filters_dict[1]['active'] and activities[activity].priority == 3:
-        bypassed_filters.append(("Could not respect filter 1 for activity: ", activity))
-        unlock_program_filter_1(weeks)
-        put_in_program(activity, activities, weeks)
+    activities = {}
+    #  days_of_week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+
+    """
+    Reading from a json
+    """
+
+    # with open('input.txt') as json_file:
+    #     data = json.load(json_file)
+    #
+    # for week in data:
+    #     for day in data[week]:
+    #         for activity in data[week][day]:
+    #             name = activity['title']
+    #             a_type = activity['type']
+    #             if activity['start_time'] == "-":
+    #                 start_time = None
+    #             else:
+    #                 start_time = datetime.time(int(activity['start_time'].split(":")[0])).hour
+    #             date = Date(day, start_time, activity['duration'], activity['location'])
+    #             if (name, a_type, week) in activities.keys():
+    #                 activities[(name, a_type, week)].dates.append(date)
+    #                 activities[(name, a_type, week)].ids.append(activity['id'])
+    #             else:
+    #                 priority = activity['priority']
+    #                 if priority == "HIGH":
+    #                     priority = 3
+    #                 elif priority == "MEDIUM":
+    #                     priority = 2
+    #                 elif priority == "LOW":
+    #                     priority = 1
+    #                 else:
+    #                     priority = 0
+    #                 activities[(name, a_type, week)] = Activity(name=name, activity_type=a_type, dates=[date],
+    #                                                             priority=priority,
+    #                                                             week=week, activity_id=activity['id'])
+
+    '''
+    From server
+    '''
+    faculty_activities = get_faculty_activities(spec=Serie.IE3)
+    for activity in faculty_activities:
+        a_name = activity.title
+        a_type = activity.type
+        a_week = []
+        if activity.frequency == "full":
+            a_week.append(1)
+            a_week.append(2)
+        elif activity.frequency == "par":
+            a_week.append(2)
+        else:
+            a_week.append(1)
+
+        date = Date(activity.day, activity.start_time.hour, activity.duration, activity.location)
+
+        for week in a_week:
+            if (a_name, a_type, week) in activities.keys():
+                activities[(a_name, a_type, week)].dates.append(date)
+                activities[(a_name, a_type, week)].ids.append(activity.id)
+            else:
+                priority = activity.priority
+                if priority == "HIGH":
+                    priority = 3
+                elif priority == "MEDIUM":
+                    priority = 2
+                elif priority == "LOW":
+                    priority = 1
+                else:
+                    priority = 0
+                activities[(a_name, a_type, week)] = Activity(name=activity.title, activity_type=activity.type,
+                                                              dates=[date], priority=priority, week=week,
+                                                              activity_id=activity.id)
+
+    """
+    Building some useful objects
+    """
+
+    intervals = {}
+    for i in range(8, 20):
+        intervals[i] = None
+    # intervals['-'] = None
+
+    weeks = {1: {'Monday': intervals.copy(), 'Tuesday': intervals.copy(), 'Wednesday': intervals.copy(),
+                 'Thursday': intervals.copy(), 'Friday': intervals.copy()},
+             2: {'Monday': intervals.copy(), 'Tuesday': intervals.copy(), 'Wednesday': intervals.copy(),
+                 'Thursday': intervals.copy(), 'Friday': intervals.copy()}
+             }
+
+    # activities = sorted(activities.items(), key=lambda kv: kv[1].priority, reverse=True)
+    activities = sort_activities(activities)
+    # activities = collections.OrderedDict(activities)
+
+    """
+    Core of the algorithm
+    Tries to put an activity in the program. If there is no information about when the activity should take place, the
+    algorithm puts the activity on the first free available interval. If a day is specified it will try to
+    put the activity in that day either on week 1 or 2 
+    """
+    if filters_dict[1]['active']:
         lock_program_filter_1(weeks, filters_dict[1])
-    # if found == 0 and filters_dict[2]['active'] and activities[activity].priority == 3:
-    #     pass
 
+    bypassed_filters = []
 
-with open('output.txt', 'w') as outfile:
-    json.dump(weeks, outfile)
+    for activity in activities:
+        found = 0
+        found += put_in_program(activity, activities, weeks)
+        if found == 0 and filters_dict[1]['active'] and activities[activity].priority == 3:
+            found_innner = 0
+            bypassed_filters.append(("Could not respect filter 1 for activity: ", activity))
+            unlock_program_filter_1(weeks)
+            found_innner += put_in_program(activity, activities, weeks)
+            lock_program_filter_1(weeks, filters_dict[1])
+            if found_innner == 0:
+                pass
+                # print(activity)
+        # if found == 0 and filters_dict[2]['active'] and activities[activity].priority == 3:
+        #     pass
+    return weeks
+    # with open('output.txt', 'w') as outfile:
+    #     json.dump(weeks, outfile)
