@@ -5,8 +5,12 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 
+from dbutils.school_utils import get_faculty_activities
 from schedule.models import UserSchoolActivity, SchoolActivity, ExtraActivity, UserExtraActivity
 from schedule.serializers import SchoolActivitySerializer, ExtraActivitySerializer
+from schedule.services import Scheduler
+from scrapping.main import getAll
+from scrapping.serie import Serie
 
 
 @api_view(['GET'])
@@ -29,6 +33,12 @@ class ExtraActivityViewset(viewsets.ModelViewSet):
 def user_extra_schedule(request, username):
     to_return = get_activities('extra', username)
     return JsonResponse(data=to_return)
+
+
+@api_view(['GET'])
+def testalgo(request):
+    print("1")
+    return JsonResponse(Scheduler.compute())
 
 
 def get_activities(activity_type: str, username: str):
@@ -69,4 +79,4 @@ def get_activities(activity_type: str, username: str):
 
 
 def index(request):
-    return HttpResponse("yay")
+    return JsonResponse(Scheduler.compute())
