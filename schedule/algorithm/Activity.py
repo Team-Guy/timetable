@@ -9,7 +9,7 @@ class Activity:
         self._type = activity_type
         self._dates = dates
         self._priority = priority
-        self._id = activity_id
+        self._ids = [activity_id]
 
     @property
     def dates(self):
@@ -45,5 +45,5 @@ class Activity:
         return self._week
 
     @property
-    def id(self):
-        return self._id
+    def ids(self):
+        return self._ids

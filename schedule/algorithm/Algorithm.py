@@ -25,7 +25,7 @@ import datetime
 #       5. LOW priority
 
 #       DONE:
-#       Filter 1: fara activitati inainte/dupa de ora X per day
+#       Filter 1: fara activitati inainte /dupa de ora X per day
 
 #       NOTES:
 #       This algorithms sucks because: we will need to keep all ids of the activities that we group together and we will
@@ -40,7 +40,7 @@ import datetime
 
 filters_dict = {
     1: {  # FILTRUL 1
-        'active': False,  # DACA E ACTIV FILTRUL 1
+        'active': True,  # DACA E ACTIV FILTRUL 1
         'before_x': {1: {'monday': 10, 'tuesday': 11},  # SAPTAMANA 1 CU ZILELE PENTRU CARE VREI SA MERGI DUPA X
                      2: {'monday': 10, 'tuesday': 11}},
         'after_x': {1: {'monday': 18, 'tuesday': 19},  # SAPTAMANA 1 CU ZILELE PENTRU CARE VREI SA MERGI INAINTE DE X
@@ -55,12 +55,14 @@ def lock_program_filter_1(program, schedule_filters):
     for p_week in lock_before.keys():
         for p_day in lock_before[p_week].keys():
             for p_interval in range(8, lock_before[p_week][p_day]):
-                program[p_week][p_day][p_interval] = 'blocked'
+                if program[p_week][p_day][p_interval] is None:
+                    program[p_week][p_day][p_interval] = 'blocked'
 
     for p_week in lock_after.keys():
         for p_day in lock_after[p_week].keys():
             for p_interval in range(lock_after[p_week][p_day], 20):
-                program[p_week][p_day][p_interval] = 'blocked'
+                if program[p_week][p_day][p_interval] is None:
+                    program[p_week][p_day][p_interval] = 'blocked'
 
 
 def unlock_program_filter_1(program):
@@ -246,6 +248,7 @@ for week in data:
             date = Date(day, start_time, activity['duration'], activity['location'])
             if (name, a_type, week) in activities.keys():
                 activities[(name, a_type, week)].dates.append(date)
+                activities[(name, a_type, week)].ids.append(activity['id'])
             else:
                 priority = activity['priority']
                 if priority == "HIGH":
@@ -286,29 +289,31 @@ def put_in_program(a_activity, a_activities, a_weeks):
             if p_date.day is None:
                 if p_date.start_hour is None:
                     result = put_free(a_weeks, p_date.duration,
-                                      a_activities[a_activity].name + " " + a_activities[a_activity].type)
+                                      # Bafta coae
+                                      str(a_activities[a_activity].ids[a_activities[a_activity].dates.index(p_date)]))
             else:
                 if p_date.startHour is None:
                     result = put_day(a_weeks, p_date.duration, p_date.day,
-                                     a_activities[a_activity].name + " " + a_activities[a_activity].type)
+                                     str(a_activities[a_activity].ids[a_activities[a_activity].dates.index(p_date)]))
                 else:
                     result = put_day_hour(a_weeks, p_date.duration, p_date.day, p_date.start_hour,
-                                          a_activities[a_activity].name + a_activities[a_activity].type)
+                                          str(a_activities[a_activity].ids[
+                                                  a_activities[a_activity].dates.index(p_date)]))
         elif a_activities[a_activity].week is not None:
             if p_date.day is None:
                 if p_date.start_hour is None:
                     result = put_week(a_weeks, p_date.duration, a_activities[a_activity].week,
-                                      str(a_activities[a_activity].id) + "|" +
-                                      str(a_activities[a_activity].week))
+                                      str(a_activities[a_activity].ids[a_activities[a_activity].dates.index(p_date)]))
             else:
                 if p_date.start_hour is not None:
                     result = put_week_day_hour(a_weeks, p_date.duration, a_activities[a_activity].week, p_date.day,
                                                p_date.start_hour,
-                                               str(a_activities[a_activity].id) + "|" + str(
-                                                   a_activities[a_activity].week))
+                                               str(a_activities[a_activity].ids[
+                                                       a_activities[a_activity].dates.index(p_date)]))
                 else:
                     result = put_week_day(a_weeks, p_date.duration, a_activities[a_activity].week, p_date.day,
-                                          str(a_activities[a_activity].id) + "|" + str(a_activities[a_activity].week))
+                                          str(a_activities[a_activity].ids[
+                                                  a_activities[a_activity].dates.index(p_date)]))
         if result == 1:
             return result
     return result
@@ -323,14 +328,19 @@ in that day either on week 1 or 2
 if filters_dict[1]['active']:
     lock_program_filter_1(weeks, filters_dict[1])
 
+bypassed_filters = []
 
 for activity in activities:
     found = 0
     found += put_in_program(activity, activities, weeks)
-    if found == 0 and filters_dict[1]['active']:
+    if found == 0 and filters_dict[1]['active'] and activities[activity].priority == 3:
+        bypassed_filters.append(("Could not respect filter 1 for activity: ", activity))
         unlock_program_filter_1(weeks)
         put_in_program(activity, activities, weeks)
         lock_program_filter_1(weeks, filters_dict[1])
+    # if found == 0 and filters_dict[2]['active'] and activities[activity].priority == 3:
+    #     pass
+
 
 with open('output.txt', 'w') as outfile:
     json.dump(weeks, outfile)
