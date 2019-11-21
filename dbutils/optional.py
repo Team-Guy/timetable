@@ -50,6 +50,8 @@ class Optional:
         'Prelucrarea imaginilor',
         'Interactiunea om-calculator',
         'Aspecte pragmatice in programare',
+        'Metode inteligente de rezolvare a problemelor reale',
+        'Aspecte pragmatice in programare'
         'Instruire asistata de calculator',
         'Cerc de programare in C',
         'Teoria si metodologia instruirii. Teoria si metodologia evaluarii',
