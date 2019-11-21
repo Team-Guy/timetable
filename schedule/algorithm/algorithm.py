@@ -305,7 +305,10 @@ def run(username):
     From server
     '''
     faculty_activities = get_all_faculty_activities(username)
+    all_activities = []
     for activity in faculty_activities:
+        all_activities.extend(get_faculty_activities(subject=activity.title, type=activity.type, spec=Serie.IE3))
+    for activity in all_activities:
         a_name = activity.title
         a_type = activity.type
         a_week = []
