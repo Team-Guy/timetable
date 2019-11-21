@@ -221,15 +221,17 @@ def put_in_program(a_activity, a_activities, a_weeks):
                 if p_date.start_hour is None:
                     result = put_free(a_weeks, p_date.duration,
                                       # Bafta coae
-                                      str(a_activities[a_activity].ids[a_activities[a_activity].dates.index(p_date)]))
+                                      # str(a_activities[a_activity].ids[a_activities[a_activity].dates.index(p_date)]))
+                                      a_activities[a_activity].name + ' ' + a_activities[a_activity].type)
             else:
                 if p_date.startHour is None:
                     result = put_day(a_weeks, p_date.duration, p_date.day,
-                                     str(a_activities[a_activity].ids[a_activities[a_activity].dates.index(p_date)]))
+                                     a_activities[a_activity].name + ' ' + a_activities[a_activity].type)
+
                 else:
                     result = put_day_hour(a_weeks, p_date.duration, p_date.day, p_date.start_hour,
-                                          str(a_activities[a_activity].ids[
-                                                  a_activities[a_activity].dates.index(p_date)]))
+                                          a_activities[a_activity].name + ' ' + a_activities[a_activity].type)
+
         elif a_activities[a_activity].week is not None:
             if p_date.day is None:
                 if p_date.start_hour is None:
@@ -239,12 +241,12 @@ def put_in_program(a_activity, a_activities, a_weeks):
                 if p_date.start_hour is not None:
                     result = put_week_day_hour(a_weeks, p_date.duration, a_activities[a_activity].week, p_date.day,
                                                p_date.start_hour,
-                                               str(a_activities[a_activity].ids[
-                                                       a_activities[a_activity].dates.index(p_date)]))
+                                               a_activities[a_activity].name + ' ' + a_activities[a_activity].type)
+
                 else:
                     result = put_week_day(a_weeks, p_date.duration, a_activities[a_activity].week, p_date.day,
-                                          str(a_activities[a_activity].ids[
-                                                  a_activities[a_activity].dates.index(p_date)]))
+                                          a_activities[a_activity].name + ' ' + a_activities[a_activity].type)
+
         if result == 1:
             return result
     return result
