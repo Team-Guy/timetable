@@ -1,4 +1,4 @@
-from dbutils.school_utils import get_faculty_activities
+from dbutils.school_utils import get_faculty_activities, get_all_faculty_activities
 from schedule.algorithm.activity import Activity
 from schedule.algorithm.date import Date
 #       The output will be 2 schedules:
@@ -250,8 +250,7 @@ def put_in_program(a_activity, a_activities, a_weeks):
     return result
 
 
-def run():
-
+def run(username):
     filters_dict = {
         1: {  # FILTRUL 1
             'active': True,  # DACA E ACTIV FILTRUL 1
@@ -303,7 +302,7 @@ def run():
     '''
     From server
     '''
-    faculty_activities = get_faculty_activities(spec=Serie.IE3)
+    faculty_activities = get_all_faculty_activities(username)
     for activity in faculty_activities:
         a_name = activity.title
         a_type = activity.type

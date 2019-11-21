@@ -9,7 +9,7 @@ def get_all_faculty_activities(username):
     username = username + "@gmail.com"
     user = User.objects.get(email=username)
     school_activities = UserSchoolActivity.objects.filter(user=user)
-    return [FacultyActivity(activity) for activity in school_activities]
+    return [FacultyActivity(activity.school_activity) for activity in school_activities]
 
 
 def get_faculty_activity_by_id(id):

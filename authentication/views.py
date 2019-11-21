@@ -8,6 +8,17 @@ import json
 
 # Create your views here.
 
+# def _add_school_activities_for_a_user(user: User):
+#     group = user.group
+#     school_act_qs = SchoolActivity.objects.filter(group=group)
+#     for i in school_act_qs:
+#         if i.title not in Optional.optional:
+#             user_school_act = UserSchoolActivity(
+#                 user=user,
+#                 school_activity=i
+#             )
+#             user_school_act.save()
+
 
 def _process_register(post_body):
     post = json.loads(post_body)
@@ -21,6 +32,7 @@ def _process_register(post_body):
         photo_url=post["photo"]
     )
     user.save()
+    # _add_school_activities_for_a_user(user)
     pref = Preference(
         user=user,
         preference1=False,

@@ -1,13 +1,12 @@
+from django.forms import model_to_dict
+from django.http import JsonResponse
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 
 from schedule.models import SchoolActivity, ExtraActivity, UserExtraActivity
-from dbutils.school_utils import get_faculty_activities
-from schedule.models import UserSchoolActivity, SchoolActivity, ExtraActivity, UserExtraActivity
+from schedule.models import UserSchoolActivity
 from schedule.serializers import SchoolActivitySerializer, ExtraActivitySerializer
 from schedule.services import Scheduler
-from scrapping.main import getAll
-from scrapping.serie import Serie
 
 
 @api_view(['GET'])
@@ -33,9 +32,8 @@ def user_extra_schedule(request, username):
 
 
 @api_view(['GET'])
-def testalgo(request):
-    print("1")
-    return JsonResponse(Scheduler.compute())
+def testalgo(request, username):
+    return JsonResponse(Scheduler.compute(username))
 
 
 def get_activities(activity_type: str, username: str):
@@ -73,14 +71,6 @@ def get_activities(activity_type: str, username: str):
         else:
             to_return[1][day].append(activity_dict)
     return to_return
-
-
-from django.forms import model_to_dict
-from django.http import HttpResponse, JsonResponse
-# Create your views here.
-from rest_framework.decorators import api_view
-
-from schedule.models import UserSchoolActivity
 
 
 def health(request):
