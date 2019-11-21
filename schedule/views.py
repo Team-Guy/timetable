@@ -80,18 +80,18 @@ def health(request):
 @api_view(['GET'])
 def user_schedule(request, username):
     odd_days_dict = dict(
-        luni=list(),
-        marti=list(),
-        miercuri=list(),
-        joi=list(),
-        vineri=list()
+        monday=list(),
+        tuesday=list(),
+        wednesday=list(),
+        thursday=list(),
+        friday=list()
     )
     even_days_dict = dict(
-        luni=list(),
-        marti=list(),
-        miercuri=list(),
-        joi=list(),
-        vineri=list()
+        monday=list(),
+        tuesday=list(),
+        wednesday=list(),
+        thursday=list(),
+        friday=list()
     )
     to_return = {1: odd_days_dict, 2: even_days_dict}
     school_act_qs = UserSchoolActivity.objects.filter(user__email=f'{username}@gmail.com')
