@@ -3,10 +3,11 @@ from django.http import JsonResponse
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 
-from schedule.models import SchoolActivity, ExtraActivity, UserExtraActivity
+from schedule.models import SchoolActivity, ExtraActivity, UserExtraActivity, User
 from schedule.models import UserSchoolActivity
 from schedule.serializers import SchoolActivitySerializer, ExtraActivitySerializer
 from schedule.services import Scheduler
+from datetime import datetime
 
 
 @api_view(['GET'])
@@ -23,6 +24,18 @@ class SchoolActivityViewset(viewsets.ModelViewSet):
 class ExtraActivityViewset(viewsets.ModelViewSet):
     queryset = ExtraActivity.objects.all()
     serializer_class = ExtraActivitySerializer
+
+    def create(self, request, *args, **kwargs):
+        user_name = request.data.pop('username')
+        data = request.data
+        user = User.objects.get(email=user_name)
+        act = ExtraActivity(title=data['title'], location=data['location'], day=data['day'],
+                            start_time=datetime.strptime(data['start_time'], '%H:%M:%S').time(),
+                            duration=int(data['duration']), frequency=data['frequency'], priority=data['priority'],
+                            description=data['description'])
+        act.save()
+        UserExtraActivity(extra_activity=act, user=user).save()
+        return JsonResponse(1)
 
 
 @api_view(['GET'])
