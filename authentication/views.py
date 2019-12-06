@@ -35,12 +35,6 @@ def _process_register(post_body):
     # _add_school_activities_for_a_user(user)
     pref = Preference(
         user=user,
-        preference1=False,
-        preference2=False,
-        preference3=False,
-        preference1_prio='LOW',
-        preference2_prio='LOW',
-        preference3_prio='LOW'
     )
     pref.save()
     return user.uid
