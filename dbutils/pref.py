@@ -17,3 +17,8 @@ class Pref:
         self.thursdayEnd=pref.thursdayEnd
         self.fridayStart=pref.fridayStart
         self.fridayEnd=pref.fridayEnd
+        self.mondayMax=pref.mondayMax
+        self.tuesdayMax=pref.tuesdayMax
+        self.wednesdayMax=pref.wednesdayMax
+        self.thursdayMax=pref.thursdayMax
+        self.fridayMax=pref.fridayMax

@@ -70,7 +70,12 @@ def _process_preferences(post_body, username):
         tuesdayEnd=post['tuesdayEnd'],
         wednesdayEnd=post['wednesdayEnd'],
         thursdayEnd=post['thursdayEnd'],
-        fridayEnd=post['fridayEnd']
+        fridayEnd=post['fridayEnd'],
+        mondayMax=post['mondayMax'],
+        tuesdayMax=post['tuesdayMax'],
+        wednesdayMax=post['wednesdayMax'],
+        thursdayMax=post['thursdayMax'],
+        fridayMax=post['fridayMax']
     )
     # print(preference)
     preference.save()

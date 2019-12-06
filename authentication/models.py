@@ -1,4 +1,4 @@
-from django.db.models import Model, OneToOneField, CASCADE, TimeField, TextField
+from django.db.models import Model, OneToOneField, CASCADE, TimeField, TextField,IntegerField
 from schedule.models import User
 import datetime
 
@@ -17,6 +17,11 @@ class Preference(Model):
     wednesdayEnd = TimeField(default=datetime.time(20, 0, 0))
     thursdayEnd = TimeField(default=datetime.time(20, 0, 0))
     fridayEnd = TimeField(default=datetime.time(20, 0, 0))
+    mondayMax=IntegerField(default=12)
+    tuesdayMax=IntegerField(default=12)
+    wednesdayMax=IntegerField(default=12)
+    thursdayMax=IntegerField(default=12)
+    fridayMax=IntegerField(default=12)
 
 
 class LastTimetable(Model):
