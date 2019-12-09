@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '_l@k%i-)+p3-kk_7j!%!*#6k#!hq0bv3@*&fqxvn*5g73t$npa'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -78,18 +78,18 @@ WSGI_APPLICATION = 'timetable.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': os.environ.get('db_name', 'timetable'),
-    #     'USER': os.environ.get('db_user', 'postgres'),
-    #     'PASSWORD': os.environ.get('db_password', 'alex982411'),
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '5432'
-    # },
-    'default': dj_database_url.config(conn_max_age=500,
-                                      default='postgres://mldhgncuosnynx:6cb03a2ec8d231d711352151685d7f1786e09e66f85fb9'
-                                              '84566db829afa9f037@ec2-174-129-214-42.compute-1.amazonaws.com:5432/d9v90'
-                                              'f5gm67flu'),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('db_name', 'timetable'),
+        'USER': os.environ.get('db_user', 'postgres'),
+        'PASSWORD': os.environ.get('db_password', 'postgres'),
+        'HOST': '127.0.0.1',
+        'PORT': '5432'
+    },
+    # 'default': dj_database_url.config(conn_max_age=500,
+    #                                   default='postgres://mldhgncuosnynx:6cb03a2ec8d231d711352151685d7f1786e09e66f85fb9'
+    #                                           '84566db829afa9f037@ec2-174-129-214-42.compute-1.amazonaws.com:5432/d9v90'
+    #                                           'f5gm67flu'),
 }
 
 # Password validation

@@ -1,14 +1,29 @@
-from django.db.models import Model, OneToOneField, BooleanField, CASCADE, CharField
+from django.db.models import Model, OneToOneField, CASCADE, TimeField, TextField,IntegerField
 from schedule.models import User
+import datetime
 
 
 # Create your models here.
 
 class Preference(Model):
     user = OneToOneField(User, on_delete=CASCADE, primary_key=True)
-    preference1 = BooleanField(default=False)
-    preference2 = BooleanField(default=False)
-    preference3 = BooleanField(default=False)
-    preference1_prio = CharField(max_length=32)
-    preference2_prio = CharField(max_length=32)
-    preference3_prio = CharField(max_length=32)
+    mondayStart = TimeField(default=datetime.time(8, 0, 0))
+    tuesdayStart = TimeField(default=datetime.time(8, 0, 0))
+    wednesdayStart = TimeField(default=datetime.time(8, 0, 0))
+    thursdayStart = TimeField(default=datetime.time(8, 0, 0))
+    fridayStart = TimeField(default=datetime.time(8, 0, 0))
+    mondayEnd = TimeField(default=datetime.time(20, 0, 0))
+    tuesdayEnd = TimeField(default=datetime.time(20, 0, 0))
+    wednesdayEnd = TimeField(default=datetime.time(20, 0, 0))
+    thursdayEnd = TimeField(default=datetime.time(20, 0, 0))
+    fridayEnd = TimeField(default=datetime.time(20, 0, 0))
+    mondayMax=IntegerField(default=12)
+    tuesdayMax=IntegerField(default=12)
+    wednesdayMax=IntegerField(default=12)
+    thursdayMax=IntegerField(default=12)
+    fridayMax=IntegerField(default=12)
+
+
+class LastTimetable(Model):
+    user = OneToOneField(User, on_delete=CASCADE, primary_key=True)
+    lastTimetable = TextField()
