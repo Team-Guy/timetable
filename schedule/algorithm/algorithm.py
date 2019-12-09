@@ -1,3 +1,6 @@
+import copy
+
+from dbutils.faculty_activity import FacultyActivity
 from dbutils.school_utils import get_faculty_activities, get_all_faculty_activities
 from schedule.algorithm.activity import Activity
 from schedule.algorithm.date import Date
@@ -241,7 +244,10 @@ def put_in_program(a_activity, a_activities, a_weeks):
                 if p_date.start_hour is not None:
                     result = put_week_day_hour(a_weeks, p_date.duration, a_activities[a_activity].week, p_date.day,
                                                p_date.start_hour,
-                                               a_activities[a_activity].name + ' ' + a_activities[a_activity].type)
+                                               str(a_activities[a_activity].ids[
+                                                       a_activities[a_activity].dates.index(p_date)]) + " " +
+                                               str(a_activities[a_activity].extra))
+                                               #  a_activities[a_activity].name + ' ' + a_activities[a_activity].type)
 
                 else:
                     result = put_week_day(a_weeks, p_date.duration, a_activities[a_activity].week, p_date.day,
@@ -309,6 +315,10 @@ def run(username):
     for activity in faculty_activities:
         all_activities.extend(get_faculty_activities(subject=activity.title, type=activity.type, spec=Serie.IE3))
     for activity in all_activities:
+        if isinstance(activity, FacultyActivity):
+            extra = False
+        else:
+            extra = True
         a_name = activity.title
         a_type = activity.type
         a_week = []
@@ -337,7 +347,7 @@ def run(username):
                 else:
                     priority = 0
                 activities[(a_name, a_type, week)] = Activity(name=activity.title, activity_type=activity.type,
-                                                              dates=[date], priority=priority, week=week,
+                                                              dates=[date], extra=extra, priority=priority, week=week,
                                                               activity_id=activity.id)
 
     """
@@ -354,6 +364,8 @@ def run(username):
              2: {'Monday': intervals.copy(), 'Tuesday': intervals.copy(), 'Wednesday': intervals.copy(),
                  'Thursday': intervals.copy(), 'Friday': intervals.copy()}
              }
+
+    output = {"faculty": copy.deepcopy(weeks), "extra": copy.deepcopy(weeks)}
 
     # activities = sorted(activities.items(), key=lambda kv: kv[1].priority, reverse=True)
     activities = sort_activities(activities)
@@ -374,16 +386,35 @@ def run(username):
         found = 0
         found += put_in_program(activity, activities, weeks)
         if found == 0 and filters_dict[1]['active'] and activities[activity].priority == 3:
-            found_innner = 0
+            found_inner = 0
             bypassed_filters.append(("Could not respect filter 1 for activity: ", activity))
             unlock_program_filter_1(weeks)
-            found_innner += put_in_program(activity, activities, weeks)
+            found_inner += put_in_program(activity, activities, weeks)
             lock_program_filter_1(weeks, filters_dict[1])
-            if found_innner == 0:
+            if found_inner == 0:
                 pass
                 # print(activity)
         # if found == 0 and filters_dict[2]['active'] and activities[activity].priority == 3:
         #     pass
-    return weeks
+    for week in weeks:
+        for day in weeks[week]:
+            for hour in weeks[week][day]:
+                print(weeks[week][day][hour])
+                if weeks[week][day][hour] == "blocked" or weeks[week][day][hour] is None:
+                    output["extra"][week][day][hour] = str(weeks[week][day][hour])
+                    output["faculty"][week][day][hour] = str(weeks[week][day][hour])
+                else:
+                    msg = weeks[week][day][hour].split()
+                    print(msg[1])
+                    if msg[1] == 'False':
+                        print("IsFalse")
+                        output["faculty"][week][day][hour] = msg[0]
+                    else:
+                        print("NotFalse")
+                        output["extra"][week][day][hour] = msg[0]
+                # print(output["faculty"][week][day][hour])
+                # print(output["extra"][week][day][hour] + "\n\n")
+
+    return output
     # with open('output.txt', 'w') as outfile:
     #     json.dump(weeks, outfile)
