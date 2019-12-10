@@ -1,8 +1,16 @@
+from dbutils.optional import Optional
+from dbutils.usr import Usr
 from schedule.models import User, SchoolActivity, UserSchoolActivity
 from .faculty_activity import FacultyActivity
 from authentication.models import Preference
 from .pref import Pref
 from .specialization import Specialization
+
+
+def get_current_user(username):
+    username = username + "@gmail.com"
+    user = User.objects.get(email=username)
+    return Usr(user)
 
 
 def get_all_faculty_activities(username):
@@ -17,9 +25,23 @@ def get_faculty_activity_by_id(id):
 
 
 def get_user_preferences(username):
-    username = username + "gmail.com"
+    username = username + "@gmail.com"
+    # print(username)
     user = User.objects.get(email=username)
     return Pref(Preference.objects.get(user=user))
+
+
+def remove_peda_sport(list_classes, user):
+    classes = []
+
+    for cls in list_classes:
+        if (not user.sport) and cls.title == Optional.sport:
+            continue
+        if (not user.peda) and cls.title in Optional.peda:
+            continue
+        classes.append(cls)
+
+    return classes
 
 
 def get_faculty_activities(*, prof=None, subject=None, type=None, spec=None):
