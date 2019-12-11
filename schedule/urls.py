@@ -9,7 +9,8 @@ router.register('extra_act', views.ExtraActivityViewset, base_name='extra_activi
 
 urlpatterns = [
     path('<str:username>', views.user_schedule),
-    path('<str:username>/extra', views.user_extra_schedule),
+    path('extra/<str:username>', views.user_extra_schedule),
+    path('initial/<str:username>', views.get_initial_timetable),
     path('', include(router.urls)),
     path('algo/<str:username>/', views.testalgo)
 ]
