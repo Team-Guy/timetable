@@ -13,14 +13,9 @@ from schedule.algorithm.date import Date
 from scrapping.serie import Serie
 
 
-# TODO: 1.1 Output | Blocked by input by Raul Burian
-# TODO: 1.2 Change input | Blocked by methods
-# TODO: 2. Filters
-#           - Eg: max X hours per day | optional: few pauses
-#           between groups of activities
-#       3. Take into consideration the location of activities
-# TODO: 4. Output dictionary Fac: Week1, Week2   with objects as values
-#                            Extra: Week1, Week2
+# TODO: 1. Filters
+#           - Eg: optional: few pauses between groups of activities
+#       2. Take into consideration the location of activities
 # ASK: 1. Some activities will have their fields changed, what will happen in the DB
 # Version 1.0
 #       Sort by priority the activities (HIGH -> LOW) and put them on the first available interval
@@ -168,7 +163,7 @@ def put_day_hour(program, duration, a_day, a_hour, msg):
     return 0
 
 
-def put_week_day_hour(program, duration, a_week, a_day, a_hour, msg):
+def put_week_day_hour(program, duration, a_week, a_day, a_hour, msg, a_filters):
     """
     Tries to put the activity at a specific week, day, hour
     :param program: The schedule that is the output of the algorithm - Dictionary
@@ -179,6 +174,20 @@ def put_week_day_hour(program, duration, a_week, a_day, a_hour, msg):
     :param msg: The activity to be put on the program  containing the name of the activity and the type - String
     :return: 1 if the such an interval is found, else 0
     """
+    if a_filters[2]['active']:
+        if a_day + '-max' in a_filters[2]['max-per-day'][a_week].keys():
+            print(msg)
+            print(a_day + '-current: ' + str(a_filters[2]['max-per-day'][a_week][a_day + '-current']))
+            print(a_day + '-max: ' + str(a_filters[2]['max-per-day'][a_week][a_day + '-max']))
+            if a_filters[2]['max-per-day'][a_week][a_day + '-max'] <= a_filters[2]['max-per-day'][a_week][a_day + '-current']:
+                return 0
+            elif a_filters[2]['max-per-day'][a_week][a_day + '-current'] + duration > a_filters[2]['max-per-day'][a_week][a_day + '-max']:
+                return 0
+            else:
+                a_filters[2]['max-per-day'][a_week][a_day + '-current'] = a_filters[2]['max-per-day'][a_week][a_day + '-current'] + duration
+            print(a_day + '-current: ' + str(a_filters[2]['max-per-day'][a_week][a_day + '-current']))
+            print("\n\n")
+
     for p_interval in range(a_hour, a_hour + duration):
         if program[a_week][a_day][p_interval] is not None:
             return 0
@@ -216,7 +225,7 @@ def put_week(program, duration, a_week, msg):
     return 0
 
 
-def put_in_program(a_activity, a_activities, a_weeks):
+def put_in_program(a_activity, a_activities, a_weeks, a_filters_dict):
     result = 0
     for p_date in a_activities[a_activity].dates:
         if a_activities[a_activity].week is None:
@@ -246,7 +255,7 @@ def put_in_program(a_activity, a_activities, a_weeks):
                                                p_date.start_hour,
                                                str(a_activities[a_activity].ids[
                                                        a_activities[a_activity].dates.index(p_date)]) + " " +
-                                               str(a_activities[a_activity].extra))
+                                               str(a_activities[a_activity].extra), a_filters_dict)
                                                #  a_activities[a_activity].name + ' ' + a_activities[a_activity].type)
 
                 else:
@@ -267,6 +276,12 @@ def run(username):
             'after_x': {1: {'Monday': 18, 'Tuesday': 19},
                         # SAPTAMANA 1 CU ZILELE PENTRU CARE VREI SA MERGI INAINTE DE X
                         2: {'Monday': 18, 'Tuesday': 19}}
+        },
+        2: {
+            'active': False,
+            'max-per-day': {1: {'Monday-max': 6, 'Tuesday-max': 6, 'Thursday-max': 6, 'Monday-current': 0,
+                                'Tuesday-current': 0, 'Thursday-current': 0},
+                            2: {}},
         }
     }
 
@@ -381,37 +396,47 @@ def run(username):
         lock_program_filter_1(weeks, filters_dict[1])
 
     bypassed_filters = []
+    unable_to_put = []
 
     for activity in activities:
         found = 0
-        found += put_in_program(activity, activities, weeks)
+        found += put_in_program(activity, activities, weeks, filters_dict)
         if found == 0 and filters_dict[1]['active'] and activities[activity].priority == 3:
             found_inner = 0
-            bypassed_filters.append(("Could not respect filter 1 for activity: ", activity))
+            bypassed_filters.append("Could not respect filter 1 for activity: " + str(activity))
             unlock_program_filter_1(weeks)
-            found_inner += put_in_program(activity, activities, weeks)
+            found_inner += put_in_program(activity, activities, weeks, filters_dict)
             lock_program_filter_1(weeks, filters_dict[1])
             if found_inner == 0:
-                pass
+                unable_to_put.append("Could not place in schedule: " + str(activity))
                 # print(activity)
-        # if found == 0 and filters_dict[2]['active'] and activities[activity].priority == 3:
-        #     pass
+        if found == 0 and filters_dict[2]['active'] and activities[activity].priority == 3:
+            found_inner = 0
+            bypassed_filters.append("Could not respect filter 2 for activity: " + str(activity))
+            filters_dict[2]['active'] = False
+            found_inner += put_in_program(activity, activities, weeks, filters_dict)
+            filters_dict[2]['active'] = True
+            if found_inner == 0:
+                unable_to_put.append("Could not place in schedule: " + str(activity))
+    print(bypassed_filters)
+    print(unable_to_put)
     for week in weeks:
         for day in weeks[week]:
             for hour in weeks[week][day]:
-                print(weeks[week][day][hour])
-                if weeks[week][day][hour] == "blocked" or weeks[week][day][hour] is None:
-                    output["extra"][week][day][hour] = str(weeks[week][day][hour])
-                    output["faculty"][week][day][hour] = str(weeks[week][day][hour])
+                if weeks[week][day][hour] == "blocked":
+                    output["extra"][week][day][hour] = "Blocked by filter"
+                    output["faculty"][week][day][hour] = "Blocked by filter"
+                elif weeks[week][day][hour] is None:
+                    output["extra"][week][day][hour] = None
+                    output["faculty"][week][day][hour] = None
                 else:
                     msg = weeks[week][day][hour].split()
-                    print(msg[1])
                     if msg[1] == 'False':
-                        print("IsFalse")
                         output["faculty"][week][day][hour] = msg[0]
+                        output["extra"][week][day][hour] = None
                     else:
-                        print("NotFalse")
                         output["extra"][week][day][hour] = msg[0]
+                        output["faculty"][week][day][hour] = None
                 # print(output["faculty"][week][day][hour])
                 # print(output["extra"][week][day][hour] + "\n\n")
 
