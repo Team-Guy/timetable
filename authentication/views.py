@@ -95,8 +95,10 @@ def preferences(request, username):
 def _process_optionals(post_body, username):
     post = json.loads(post_body)
     user = User.objects.get(email=username)
-    user.sport = post["sport"]
-    user.peda = post["peda"]
+    sport = False if post['sport'] == 'False' else True
+    peda = False if post['peda'] == 'False' else True
+    user.sport = sport
+    user.peda = peda
     optionale = []
     for optional in post['optionals']:
         optionale.append(optional)

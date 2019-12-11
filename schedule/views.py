@@ -121,7 +121,3 @@ def user_schedule(request, username):
             to_return[1][day].append(activity_dict)
 
     return JsonResponse(data=to_return)
-
-
-def index(request):
-    return JsonResponse(Scheduler.compute())

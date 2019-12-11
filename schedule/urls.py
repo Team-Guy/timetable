@@ -8,7 +8,6 @@ router.register('school_act', views.SchoolActivityViewset, base_name='school_act
 router.register('extra_act', views.ExtraActivityViewset, base_name='extra_activity')
 
 urlpatterns = [
-    path('', views.index),
     path('<str:username>', views.user_schedule),
     path('<str:username>/extra', views.user_extra_schedule),
     path('', include(router.urls)),
