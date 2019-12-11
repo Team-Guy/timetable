@@ -53,3 +53,4 @@ def getAll():
     SchoolActivity.objects.all().delete()
     for link in Link.LINKS:
         getInfo(link)
+    getSport()

@@ -1,5 +1,6 @@
 # Create your models here.
-from django.db.models import Model, CharField, TimeField, IntegerField, TextField, EmailField, ForeignKey, CASCADE
+from django.db.models import Model, CharField, TimeField, IntegerField, TextField, EmailField, ForeignKey, CASCADE, \
+    BooleanField
 
 
 class User(Model):
@@ -8,6 +9,8 @@ class User(Model):
     name = CharField(max_length=255)
     group = CharField(max_length=10)
     photo_url = CharField(max_length=255)
+    sport = BooleanField(default=False)
+    peda = BooleanField(default=False)
 
 
 class SchoolActivity(Model):
