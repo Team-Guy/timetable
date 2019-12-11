@@ -7,9 +7,18 @@ class Pref:
 
     def __init__(self, pref: Preference):
         self.id = id
-        self.pref1 = pref.preference1
-        self.pref2 = pref.preference2
-        self.pref3 = pref.preference3
-        self.pref1_prio = pref.preference1_prio
-        self.pref2_prio = pref.preference2_prio
-        self.pref3_prio = pref.preference3_prio
+        self.mondayStart = pref.mondayStart
+        self.mondayEnd = pref.mondayEnd
+        self.tuesdayStart = pref.tuesdayStart
+        self.tuesdayEnd = pref.thursdayEnd
+        self.wednesdayStart=pref.wednesdayStart
+        self.wednesdayEnd=pref.wednesdayEnd
+        self.thursdayStart=pref.thursdayStart
+        self.thursdayEnd=pref.thursdayEnd
+        self.fridayStart=pref.fridayStart
+        self.fridayEnd=pref.fridayEnd
+        self.mondayMax=pref.mondayMax
+        self.tuesdayMax=pref.tuesdayMax
+        self.wednesdayMax=pref.wednesdayMax
+        self.thursdayMax=pref.thursdayMax
+        self.fridayMax=pref.fridayMax

@@ -19,8 +19,8 @@ from django.urls import path, include
 from schedule.views import health
 
 urlpatterns = [
+    path('', health),
     path('admin/', admin.site.urls),
-    path('health/', health),
     path('schedule/', include('schedule.urls')),
     path('auth/', include('authentication.urls'))
 ]

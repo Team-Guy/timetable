@@ -35,12 +35,6 @@ def _process_register(post_body):
     # _add_school_activities_for_a_user(user)
     pref = Preference(
         user=user,
-        preference1=False,
-        preference2=False,
-        preference3=False,
-        preference1_prio='LOW',
-        preference2_prio='LOW',
-        preference3_prio='LOW'
     )
     pref.save()
     return user.uid
@@ -61,12 +55,21 @@ def _process_preferences(post_body, username):
     # print(post["preference1"])
     preference = Preference(
         user=user,
-        preference1=post["preference1"],
-        preference2=post["preference2"],
-        preference3=post["preference3"],
-        preference1_prio=post["pref1_prio"],
-        preference2_prio=post["pref2_prio"],
-        preference3_prio=post["pref3_prio"]
+        mondayStart=post['mondayStart'],
+        tuesdayStart=post['tuesdayStart'],
+        wednesdayStart=post['wednesdayStart'],
+        thursdayStart=post['thursdayStart'],
+        fridayStart=post['fridayStart'],
+        mondayEnd=post['mondayEnd'],
+        tuesdayEnd=post['tuesdayEnd'],
+        wednesdayEnd=post['wednesdayEnd'],
+        thursdayEnd=post['thursdayEnd'],
+        fridayEnd=post['fridayEnd'],
+        mondayMax=post['mondayMax'],
+        tuesdayMax=post['tuesdayMax'],
+        wednesdayMax=post['wednesdayMax'],
+        thursdayMax=post['thursdayMax'],
+        fridayMax=post['fridayMax']
     )
     # print(preference)
     preference.save()
