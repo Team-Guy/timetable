@@ -58,3 +58,5 @@ class Optional:
         'Comunicare si dezvoltare profesionala in informatica',
         'Psihologie educationala'
     ]
+    sport = 'Educatie Fizica'
+    peda = ['Psihologie educationala', 'Teoria si metodologia instruirii. Teoria si metodologia evaluarii']

@@ -1,4 +1,12 @@
+import datetime
+
+import requests
+from bs4 import BeautifulSoup
+
+from schedule.models import SchoolActivity
 from scrapping.classtype import ClassType
+from scrapping.day import Day
+from scrapping.link import Link
 from scrapping.util import *
 from scrapping.materietemp import MaterieTemp
 
@@ -70,3 +78,44 @@ def processDay(rows, day, groups):
             column = incrementColumn(column, item.attrs)
 
     return ore
+
+def saveSportHour(group,startHour,zi):
+    prof = 'MOCA Cosmin'
+    locatie = 'Parc Iuliu Hateganu'
+    title='Educatie Fizica'
+    a = SchoolActivity(
+                title=title,
+                professor=prof,
+                location=locatie,
+                group=group,
+                duration=2,
+                frequency=Frequency.FULL,
+                start_time=datetime.time(startHour, 0, 0),
+                type=ClassType.getClassType(ClassType.SEMINAR),
+                priority='HIGH',
+                day=zi
+            )
+    a.save()
+
+def getSportGroups(row,startHours,zi):
+    ore=row.find_all('td')[1:]
+    for i in range(len(ore)):
+        text=ore[i].text
+        text=text.replace(' ','')
+        text=text.split(',')
+        for group in text:
+            if group!='':
+                saveSportHour(group,int(startHours[i]),zi)
+
+def getSport():
+    result = requests.get(Link.SPORT)
+    soup = BeautifulSoup(result.content, 'lxml')
+    table=soup.find_all('table')[0]
+    headers=table.find_all('th')[1:]
+    startHours=[h.text.split('.')[0] for h in headers]
+    rows=table.find_all('tr')[1:]
+    day=['Monday','Tuesday','Wednesday','Thursday','Friday']
+    i=0
+    for row in rows:
+        getSportGroups(row,startHours,day[i])
+        i+=1
