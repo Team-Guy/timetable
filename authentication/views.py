@@ -1,8 +1,10 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from dbutils.optional import Optional
-from authentication.models import Preference
-from dbutils.school_utils import get_user_preferences, get_faculty_activities, remove_peda_sport
+from authentication.models import Preference, LastTimetable
+from dbutils.school_utils import get_user_preferences, get_faculty_activities, remove_peda_sport, \
+    get_all_faculty_activities
+from dbutils.timetable_utils import save_last_timetable
 from schedule.models import User, UserSchoolActivity, SchoolActivity
 from scrapping.main import getAll
 import json
@@ -20,6 +22,7 @@ import json
 #             )
 #             user_school_act.save()
 from scrapping.serie import Serie
+from schedule.views import user_full_schedule
 
 
 def _process_register(post_body):
@@ -92,11 +95,13 @@ def preferences(request, username):
         return JsonResponse({"id": -1})
 
 
-def _process_optionals(post_body, username):
+def _process_optionals(post_body, username,diff):
     post = json.loads(post_body)
     user = User.objects.get(email=username)
-    user.sport = post["sport"]
-    user.peda = post["peda"]
+    sport = False if post['sport'] == 'False' else True
+    peda = False if post['peda'] == 'False' else True
+    user.sport = sport
+    user.peda = peda
     optionale = []
     for optional in post['optionals']:
         optionale.append(optional)
@@ -121,6 +126,10 @@ def _process_optionals(post_body, username):
             )
             user_activity.save()
     user.save()
+    if diff:
+        full_schedule = user_full_schedule(username.split('@')[0])
+        save_last_timetable(full_schedule, username.split('@')[0])
+
     return 1
 
 
@@ -129,7 +138,7 @@ def optionals(request, username):
     username = username + "@gmail.com"
     rid = -1
     if request.method == "POST":
-        rid = _process_optionals(request.body, username)
+        rid = _process_optionals(request.body, username,True)
     ret = {"id": rid}
     return JsonResponse(ret)
 
@@ -137,10 +146,12 @@ def optionals(request, username):
 def _process_edit_post(post_body, username):
     user = User.objects.get(email=username)
     post = json.loads(post_body)
+    diff = True if user.group != post['group'] else False
     user.group = post['group']
     user.save()
     UserSchoolActivity.objects.filter(user=user).delete()
-    _process_optionals(post_body, username)
+    _process_optionals(post_body, username,diff)
+
     return user.id
 
 
@@ -172,5 +183,6 @@ def edit_profile(request, username):
 
 @csrf_exempt
 def updateDB(request):
-    getAll()
+    # getAll()
+    get_all_faculty_activities("mihai")
     return HttpResponse("DB updated")

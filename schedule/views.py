@@ -1,8 +1,12 @@
+import json
+
 from django.forms import model_to_dict
 from django.http import JsonResponse
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 
+from authentication.models import LastTimetable
+from dbutils.timetable_utils import save_last_timetable, get_differences
 from schedule.models import SchoolActivity, ExtraActivity, UserExtraActivity, User
 from schedule.models import UserSchoolActivity
 from schedule.serializers import SchoolActivitySerializer, ExtraActivitySerializer
@@ -44,9 +48,26 @@ def user_extra_schedule(request, username):
     return JsonResponse(data=to_return)
 
 
+def user_full_schedule(username):
+    school_act = get_activities('school', username)
+    extra_act = get_activities('extra', username)
+    return {'school': school_act, 'extra': extra_act}
+
+
+@api_view(['GET'])
+def get_initial_timetable(request, username):
+    return JsonResponse(data=user_full_schedule(username))
+
+
 @api_view(['GET'])
 def testalgo(request, username):
-    return JsonResponse(Scheduler.compute(username))
+    last_timetable = json.loads(
+        LastTimetable.objects.get(user=User.objects.get(email=f'{username}@gmail.com')).lastTimetable)
+    generated_timetable = Scheduler.compute(username)
+    differences = get_differences(last_timetable, generated_timetable)
+    generated_timetable_dump = json.dumps(generated_timetable)
+    save_last_timetable(generated_timetable_dump, username)
+    return JsonResponse(generated_timetable)
 
 
 def get_activities(activity_type: str, username: str):
@@ -121,7 +142,3 @@ def user_schedule(request, username):
             to_return[1][day].append(activity_dict)
 
     return JsonResponse(data=to_return)
-
-
-def index(request):
-    return JsonResponse(Scheduler.compute())

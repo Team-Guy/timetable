@@ -45,7 +45,6 @@ class Optional:
         'Analiza functionala',
         'Astronomie',
         'Practica de specialitate',
-        'Practica pedagogica observativa',
         'Interactiunea om-calculator',
         'Prelucrarea imaginilor',
         'Interactiunea om-calculator',
@@ -59,4 +58,5 @@ class Optional:
         'Psihologie educationala'
     ]
     sport = 'Educatie Fizica'
-    peda = ['Psihologie educationala', 'Teoria si metodologia instruirii. Teoria si metodologia evaluarii']
+    peda = ['Psihologie educationala', 'Teoria si metodologia instruirii. Teoria si metodologia evaluarii',
+            "Instruire asistata de calculator", 'Practica pedagogica observativa']
