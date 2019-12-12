@@ -137,6 +137,20 @@ def optionals(request, username):
 def optionals(request):
     return JsonResponse(Optional.optional, safe=False)
 
+def optionals(request,semester):
+    if semester == '1':
+        return JsonResponse(Optional.optional_sem_1, safe=False)
+    if semester == '2':
+        return JsonResponse(Optional.optional_sem_2, safe=False)
+    if semester == '3':
+        return JsonResponse(Optional.optional_sem_3, safe=False)
+    if semester == '4':
+        return JsonResponse(Optional.optional_sem_4, safe=False)
+    if semester == '5':
+        return JsonResponse(Optional.optional_sem_5, safe=False)
+    if semester == '6':
+        return JsonResponse(Optional.optional_sem_6, safe=False)
+
 
 def _process_edit_post(post_body, username):
     user = User.objects.get(email=username)
