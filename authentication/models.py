@@ -24,6 +24,7 @@ class Preference(Model):
     fridayMax=IntegerField(default=12)
 
 
+# TODO: Move this to schedule
 class LastTimetable(Model):
     user = OneToOneField(User, on_delete=CASCADE, primary_key=True)
     lastTimetable = TextField()

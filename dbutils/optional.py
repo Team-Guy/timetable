@@ -128,4 +128,5 @@ class Optional:
     #
     # ]
     sport = 'Educatie Fizica'
-    peda = ['Psihologie educationala', 'Teoria si metodologia instruirii. Teoria si metodologia evaluarii']
+    peda = ['Psihologie educationala', 'Teoria si metodologia instruirii. Teoria si metodologia evaluarii',
+            "Instruire asistata de calculator", 'Practica pedagogica observativa']
