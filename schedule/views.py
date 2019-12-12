@@ -6,7 +6,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 
 from authentication.models import LastTimetable
-from dbutils.timetable_utils import save_last_timetable, get_differences
+from dbutils.timetable_utils import save_last_timetable, get_differences, get_last_timetable
 from schedule.models import SchoolActivity, ExtraActivity, UserExtraActivity, User
 from schedule.models import UserSchoolActivity
 from schedule.serializers import SchoolActivitySerializer, ExtraActivitySerializer
@@ -142,3 +142,13 @@ def user_schedule(request, username):
             to_return[1][day].append(activity_dict)
 
     return JsonResponse(data=to_return)
+
+
+@api_view(['POST', 'GET'])
+def save_last(request, username):
+    if request.method == 'POST':
+        save_last_timetable(json.dumps(request.data), username)
+        return JsonResponse({"id": 1})
+    elif request.method == 'GET':
+        dict = get_last_timetable(username)
+        return JsonResponse(dict)

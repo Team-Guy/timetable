@@ -44,6 +44,17 @@ def remove_peda_sport(list_classes, user):
     return classes
 
 
+def get_user_optionals(username):
+    activities = get_all_faculty_activities(username)
+    optionals = []
+    titles = []
+    for activity in activities:
+        if activity.title in Optional.optional and activity.title not in titles:
+            optionals.append(activity)
+            titles.append(activity.title)
+    return optionals
+
+
 def get_faculty_activities(*, prof=None, subject=None, type=None, spec=None):
     if not prof and not subject and not type and not spec:  # 0
         return [FacultyActivity(activity) for activity in SchoolActivity.objects.all()]

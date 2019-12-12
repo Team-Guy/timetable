@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from dbutils.optional import Optional
 from authentication.models import Preference, LastTimetable
 from dbutils.school_utils import get_user_preferences, get_faculty_activities, remove_peda_sport, \
-    get_all_faculty_activities
+    get_all_faculty_activities, get_user_optionals
 from dbutils.timetable_utils import save_last_timetable
 from schedule.models import User, UserSchoolActivity, SchoolActivity
 from scrapping.main import getAll
@@ -95,7 +95,7 @@ def preferences(request, username):
         return JsonResponse({"id": -1})
 
 
-def _process_optionals(post_body, username,diff):
+def _process_optionals(post_body, username, diff):
     post = json.loads(post_body)
     user = User.objects.get(email=username)
     sport = False if post['sport'] == 'False' else True
@@ -105,6 +105,7 @@ def _process_optionals(post_body, username,diff):
     optionale = []
     for optional in post['optionals']:
         optionale.append(optional)
+
     school_activities = SchoolActivity.objects.filter(group=user.group)
     for activity in school_activities:
         if activity.title not in Optional.optional:
@@ -127,8 +128,8 @@ def _process_optionals(post_body, username,diff):
             user_activity.save()
     user.save()
     if diff:
-        full_schedule = user_full_schedule(username.split('@')[0])
-        save_last_timetable(full_schedule, username.split('@')[0])
+        full_schedule = JsonResponse(user_full_schedule(username.split('@')[0]))
+        save_last_timetable(full_schedule.content.decode('utf-8'), username.split('@')[0])
 
     return 1
 
@@ -138,7 +139,7 @@ def optionals(request, username):
     username = username + "@gmail.com"
     rid = -1
     if request.method == "POST":
-        rid = _process_optionals(request.body, username,True)
+        rid = _process_optionals(request.body, username, True)
     ret = {"id": rid}
     return JsonResponse(ret)
 
@@ -149,8 +150,10 @@ def _process_edit_post(post_body, username):
     diff = True if user.group != post['group'] else False
     user.group = post['group']
     user.save()
+    current_optionals = [a.title for a in get_user_optionals(username.split('@')[0])]
+    diff = diff or current_optionals != post['optionals']
     UserSchoolActivity.objects.filter(user=user).delete()
-    _process_optionals(post_body, username,diff)
+    _process_optionals(post_body, username, diff)
 
     return user.id
 
@@ -183,6 +186,5 @@ def edit_profile(request, username):
 
 @csrf_exempt
 def updateDB(request):
-    # getAll()
-    get_all_faculty_activities("mihai")
+    getAll()
     return HttpResponse("DB updated")
