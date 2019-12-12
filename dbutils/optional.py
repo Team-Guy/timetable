@@ -1,8 +1,8 @@
 class Optional:
     optional = [
         'Comunicare si dezvoltare profesionala',
-        'Programare in C',
-        'Metode avansate de rezolvare a problemelor de matematica si informatica',
+        'Programare in c',
+        'Metode avansate de rezolvare a problemelor de matematică şi informatică',
         'Automatizarea proceselor de business',
         'Baze de date spatiale',
         'Microcontroleri',
@@ -46,9 +46,7 @@ class Optional:
         'Astronomie',
         'Practica de specialitate',
         'Practica pedagogica observativa',
-        'Interactiunea om-calculator',
         'Prelucrarea imaginilor',
-        'Interactiunea om-calculator',
         'Aspecte pragmatice in programare',
         'Metode inteligente de rezolvare a problemelor reale',
         'Aspecte pragmatice in programare'
@@ -56,7 +54,12 @@ class Optional:
         'Cerc de programare in C',
         'Teoria si metodologia instruirii. Teoria si metodologia evaluarii',
         'Comunicare si dezvoltare profesionala in informatica',
-        'Psihologie educationala'
+        'Psihologie educationala',
+        'Modelare matematică',
+        'Matematica operatiunilor financiare',
+        'Metode numerice in mecanică'
+
+
     ]
     sport = 'Educatie Fizica'
     peda = ['Psihologie educationala', 'Teoria si metodologia instruirii. Teoria si metodologia evaluarii']
