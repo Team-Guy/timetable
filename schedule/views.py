@@ -158,11 +158,11 @@ def save_last(request, username):
 def save_extra(request, username):
     username = username + '@gmail.com'
     user = User.objects.get(email=username)
-    lst=LastTimetable.objects.get(user=user)
+    lst = LastTimetable.objects.get(user=user)
     last = lst.lastTimetable
     lastDict = json.loads(last)
     lastDict['extra'] = request.data
-    lst.lastTimetable=json.dumps(lastDict)
+    lst.lastTimetable = json.dumps(lastDict)
     lst.save()
 
     return JsonResponse({"id": 1})
