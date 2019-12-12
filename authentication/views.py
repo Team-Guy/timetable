@@ -134,6 +134,10 @@ def optionals(request, username):
     return JsonResponse(ret)
 
 
+def optionals(request):
+    return JsonResponse(Optional.optional, safe=False)
+
+
 def _process_edit_post(post_body, username):
     user = User.objects.get(email=username)
     post = json.loads(post_body)
