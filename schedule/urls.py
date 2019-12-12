@@ -12,6 +12,7 @@ urlpatterns = [
     path('extra/<str:username>', views.user_extra_schedule),
     path('initial/<str:username>', views.get_initial_timetable),
     path('save_last/<str:username>', views.save_last),
+    path('save_extra/<str:username>', views.save_extra),
     path('', include(router.urls)),
     path('algo/<str:username>/', views.testalgo)
 ]
