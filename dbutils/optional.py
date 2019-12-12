@@ -34,7 +34,7 @@ class Optional:
         'Algebra computationala',
         'Aplicatii ale geometriei in informatica',
         'Protocoale specializate in retele de calculatoare',
-        'Aspecte pragmatice în programare',
+        'Aspecte pragmatice in programare',
         'Realitate virtuala',
         'Prelucrarea imaginilor',
         'Metode inteligente de rezolvare a problemelor reale',
@@ -111,9 +111,7 @@ class Optional:
     #     'Analiza functionala',
     #     'Astronomie',
     #     'Practica de specialitate',
-    #     'Practica pedagogica observativa',
     #     'Prelucrarea imaginilor',
-    #     'Aspecte pragmatice in programare',
     #     'Metode inteligente de rezolvare a problemelor reale',
     #     'Aspecte pragmatice in programare'
     #     'Instruire asistata de calculator',
