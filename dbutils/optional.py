@@ -45,7 +45,6 @@ class Optional:
         'Analiza functionala',
         'Astronomie',
         'Practica de specialitate',
-        'Practica pedagogica observativa',
         'Interactiunea om-calculator',
         'Prelucrarea imaginilor',
         'Interactiunea om-calculator',

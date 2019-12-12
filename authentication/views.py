@@ -2,7 +2,8 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from dbutils.optional import Optional
 from authentication.models import Preference, LastTimetable
-from dbutils.school_utils import get_user_preferences, get_faculty_activities, remove_peda_sport
+from dbutils.school_utils import get_user_preferences, get_faculty_activities, remove_peda_sport, \
+    get_all_faculty_activities
 from dbutils.timetable_utils import save_last_timetable
 from schedule.models import User, UserSchoolActivity, SchoolActivity
 from scrapping.main import getAll
@@ -182,5 +183,6 @@ def edit_profile(request, username):
 
 @csrf_exempt
 def updateDB(request):
-    getAll()
+    # getAll()
+    get_all_faculty_activities("mihai")
     return HttpResponse("DB updated")
