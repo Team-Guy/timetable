@@ -192,3 +192,22 @@ def edit_profile(request, username):
 def updateDB(request):
     getAll()
     return HttpResponse("DB updated")
+
+
+def all_optionals(request):
+    return JsonResponse(Optional.optional, safe=False)
+
+
+def optionals_by_semester(request,semester):
+    if semester == '1':
+        return JsonResponse(Optional.optional_sem_1, safe=False)
+    if semester == '2':
+        return JsonResponse(Optional.optional_sem_2, safe=False)
+    if semester == '3':
+        return JsonResponse(Optional.optional_sem_3, safe=False)
+    if semester == '4':
+        return JsonResponse(Optional.optional_sem_4, safe=False)
+    if semester == '5':
+        return JsonResponse(Optional.optional_sem_5, safe=False)
+    if semester == '6':
+        return JsonResponse(Optional.optional_sem_6, safe=False)
