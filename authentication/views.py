@@ -147,11 +147,15 @@ def optionals(request, username):
 def _process_edit_post(post_body, username):
     user = User.objects.get(email=username)
     post = json.loads(post_body)
+    sport = False if post['sport'] == 'False' else True
+    peda = False if post['peda'] == 'False' else True
     diff = True if user.group != post['group'] else False
     user.group = post['group']
     user.save()
     current_optionals = [a.title for a in get_user_optionals(username.split('@')[0])]
     diff = diff or current_optionals != post['optionals']
+    diff = diff or user.peda!=peda
+    diff = diff or user.sport!=sport
     UserSchoolActivity.objects.filter(user=user).delete()
     _process_optionals(post_body, username, diff)
 
