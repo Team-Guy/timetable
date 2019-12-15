@@ -61,13 +61,12 @@ def get_initial_timetable(request, username):
 
 @api_view(['GET'])
 def testalgo(request, username):
-    last_timetable = json.loads(
-        LastTimetable.objects.get(user=User.objects.get(email=f'{username}@gmail.com')).lastTimetable)
+    last_timetable = get_last_timetable(username)
     generated_timetable = Scheduler.compute(username)
+    response=JsonResponse(generated_timetable)
     differences = get_differences(last_timetable, generated_timetable)
-    generated_timetable_dump = json.dumps(generated_timetable)
-    save_last_timetable(generated_timetable_dump, username)
-    return JsonResponse(generated_timetable)
+    save_last_timetable(response.content.decode('utf-8'), username)
+    return response
 
 
 def get_activities(activity_type: str, username: str):

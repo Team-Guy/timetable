@@ -197,7 +197,7 @@ def put_week_day_hour(program, duration, a_week, a_day, a_hour, tuple_msg, a_fil
         if program[a_week][a_day][p_interval] is not None:
             return 0
     for p_interval in range(a_hour, a_hour + duration):
-        program[a_week][a_day][p_interval] = (activity.id, tuple_msg[1])
+        program[a_week][a_day][p_interval] = (activity.__dict__, tuple_msg[1])
 
     a_filters[2]['max-per-day'][a_week][a_day + '-current'] += duration
     return activity.id
