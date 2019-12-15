@@ -87,7 +87,7 @@ def saveSportHour(group,startHour,zi):
                 title=title,
                 professor=prof,
                 location=locatie,
-                group=group,
+                group=group+'/1',
                 duration=2,
                 frequency=Frequency.FULL,
                 start_time=datetime.time(startHour, 0, 0),
@@ -96,6 +96,19 @@ def saveSportHour(group,startHour,zi):
                 day=zi
             )
     a.save()
+    a2 = SchoolActivity(
+        title=title,
+        professor=prof,
+        location=locatie,
+        group=group + '/2',
+        duration=2,
+        frequency=Frequency.FULL,
+        start_time=datetime.time(startHour, 0, 0),
+        type=ClassType.getClassType(ClassType.SEMINAR),
+        priority='HIGH',
+        day=zi
+    )
+    a2.save()
 
 def getSportGroups(row,startHours,zi):
     ore=row.find_all('td')[1:]
