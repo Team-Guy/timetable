@@ -6,12 +6,15 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 
 from authentication.models import LastTimetable
+from dbutils.specialization import Specialization
 from dbutils.timetable_utils import save_last_timetable, get_differences, get_last_timetable
 from schedule.models import SchoolActivity, ExtraActivity, UserExtraActivity, User
 from schedule.models import UserSchoolActivity
 from schedule.serializers import SchoolActivitySerializer, ExtraActivitySerializer
 from schedule.services import Scheduler
 from datetime import datetime
+
+from scrapping.serie import Serie
 
 
 @api_view(['GET'])
@@ -165,3 +168,18 @@ def save_extra(request, username):
     lst.save()
 
     return JsonResponse({"id": 1})
+
+@api_view(['GET'])
+def get_groups(request):
+    return JsonResponse(Specialization.groups[Serie.I1]+
+                        Specialization.groups[Serie.I2]+
+                        Specialization.groups[Serie.I3]+
+                        Specialization.groups[Serie.IE1]+
+                        Specialization.groups[Serie.IE2]+
+                        Specialization.groups[Serie.IE3]+
+                        Specialization.groups[Serie.MI1]+
+                        Specialization.groups[Serie.MI2]+
+                        Specialization.groups[Serie.MI3]+
+                        Specialization.groups[Serie.MIE1]+
+                        Specialization.groups[Serie.MIE1]+
+                        Specialization.groups[Serie.MIE1],safe=False)
