@@ -83,8 +83,8 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': os.environ.get('db_name', 'timetable'),
     #     'USER': os.environ.get('db_user', 'postgres'),
-    #     'PASSWORD': os.environ.get('db_password', 'postgres'),
-    #     'HOST': '127.0.0.1',
+    #     'PASSWORD': os.environ.get('db_password', 'cacat'),
+    #     'HOST': '192.168.1.226',
     #     'PORT': '5432'
     # },
     'default': dj_database_url.config(conn_max_age=500,
