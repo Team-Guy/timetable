@@ -1,4 +1,8 @@
-from dbutils.school_utils import get_faculty_activities, get_all_faculty_activities
+import copy
+
+from dbutils.faculty_activity import FacultyActivity
+from dbutils.school_utils import get_faculty_activities, get_all_faculty_activities, get_user_preferences
+from dbutils.extra_utils import get_extra_activities
 from schedule.algorithm.activity import Activity
 from schedule.algorithm.date import Date
 #       The output will be 2 schedules:
@@ -10,14 +14,10 @@ from schedule.algorithm.date import Date
 from scrapping.serie import Serie
 
 
-# TODO: 1.1 Output | Blocked by input by Raul Burian
-# TODO: 1.2 Change input | Blocked by methods
-# TODO: 2. Filters
-#           - Eg: max X hours per day | optional: few pauses
-#           between groups of activities
-#       3. Take into consideration the location of activities
-# TODO: 4. Output dictionary Fac: Week1, Week2   with objects as values
-#                            Extra: Week1, Week2
+# TODO: 1. Filters
+#           - Eg: optional: few pauses between groups of activities
+#       2. Take into consideration the location of activities
+#       3. Change output to whole object, search in all_activities for the correct id for each activity in schedule
 # ASK: 1. Some activities will have their fields changed, what will happen in the DB
 # Version 1.0
 #       Sort by priority the activities (HIGH -> LOW) and put them on the first available interval
@@ -165,7 +165,7 @@ def put_day_hour(program, duration, a_day, a_hour, msg):
     return 0
 
 
-def put_week_day_hour(program, duration, a_week, a_day, a_hour, msg):
+def put_week_day_hour(program, duration, a_week, a_day, a_hour, tuple_msg, a_filters):
     """
     Tries to put the activity at a specific week, day, hour
     :param program: The schedule that is the output of the algorithm - Dictionary
@@ -174,14 +174,33 @@ def put_week_day_hour(program, duration, a_week, a_day, a_hour, msg):
     :param a_day: The day that the activity takes place - Expected value: {monday-friday} - String
     :param a_hour: The start hour of the activity - Expected value: {8-19} - Integer
     :param msg: The activity to be put on the program  containing the name of the activity and the type - String
+    :param a_filters: The filters that we use to optimize the algorithm for the user
     :return: 1 if the such an interval is found, else 0
     """
+    activity = tuple_msg[0]
+    if a_filters[2]['active']:
+        if a_day + '-max' in a_filters[2]['max-per-day'][a_week].keys():
+            # print(msg)
+            # print(a_day + '-current: ' + str(a_filters[2]['max-per-day'][a_week][a_day + '-current']))
+            # print(a_day + '-max: ' + str(a_filters[2]['max-per-day'][a_week][a_day + '-max']))
+            if a_filters[2]['max-per-day'][a_week][a_day + '-max'] <= a_filters[2]['max-per-day'][a_week][a_day +
+                                                                                                          '-current']:
+                return 0
+            elif a_filters[2]['max-per-day'][a_week][a_day + '-current'] + duration > \
+                    a_filters[2]['max-per-day'][a_week][a_day + '-max']:
+                return 0
+
+            # print(a_day + '-current: ' + str(a_filters[2]['max-per-day'][a_week][a_day + '-current']))
+            # print("\n\n")
+
     for p_interval in range(a_hour, a_hour + duration):
         if program[a_week][a_day][p_interval] is not None:
             return 0
     for p_interval in range(a_hour, a_hour + duration):
-        program[a_week][a_day][p_interval] = msg
-    return 1
+        program[a_week][a_day][p_interval] = (activity.id, tuple_msg[1])
+
+    a_filters[2]['max-per-day'][a_week][a_day + '-current'] += duration
+    return activity.id
 
 
 def put_week_day(program, duration, a_week, a_day, msg):
@@ -213,7 +232,13 @@ def put_week(program, duration, a_week, msg):
     return 0
 
 
-def put_in_program(a_activity, a_activities, a_weeks):
+def get_object(activity_id, all_activities):
+    for activity in all_activities:
+        if activity.id == activity_id:
+            return activity
+
+
+def put_in_program(a_activity, a_activities, a_weeks, a_filters_dict, a_all_activities):
     result = 0
     for p_date in a_activities[a_activity].dates:
         if a_activities[a_activity].week is None:
@@ -239,78 +264,93 @@ def put_in_program(a_activity, a_activities, a_weeks):
                                       str(a_activities[a_activity].ids[a_activities[a_activity].dates.index(p_date)]))
             else:
                 if p_date.start_hour is not None:
-                    result = put_week_day_hour(a_weeks, p_date.duration, a_activities[a_activity].week, p_date.day,
-                                               p_date.start_hour,
-                                               a_activities[a_activity].name + ' ' + a_activities[a_activity].type)
+                    obj = get_object(a_activities[a_activity].ids[a_activities[a_activity].dates.index(p_date)],
+                                     a_all_activities)
+                    result += put_week_day_hour(a_weeks, p_date.duration, a_activities[a_activity].week, p_date.day,
+                                                p_date.start_hour,
+                                                (obj, str(a_activities[a_activity].extra)), a_filters_dict)
+                    # str(a_activities[a_activity].name) + " " + a_activities[
+                    #     a_activity].type + '|' + str(a_activities[a_activity].extra),
+                    # a_filters_dict)
 
                 else:
                     result = put_week_day(a_weeks, p_date.duration, a_activities[a_activity].week, p_date.day,
                                           a_activities[a_activity].name + ' ' + a_activities[a_activity].type)
 
-        if result == 1:
+        if result != 0:
             return result
     return result
 
 
+def are_filters_bypassed(activity_id, bypass_list):
+    filters = []
+    for a_id, a_filter in bypass_list:
+        if a_id == activity_id:
+            filters.append(a_filter)
+    return filters
+
+
 def run(username):
+    pref = get_user_preferences(username)
+
     filters_dict = {
-        1: {  # FILTRUL 1
-            'active': True,  # DACA E ACTIV FILTRUL 1
-            'before_x': {1: {'Monday': 10, 'Tuesday': 11},  # SAPTAMANA 1 CU ZILELE PENTRU CARE VREI SA MERGI DUPA X
-                         2: {'Monday': 10, 'Tuesday': 11}},
-            'after_x': {1: {'Monday': 18, 'Tuesday': 19},
-                        # SAPTAMANA 1 CU ZILELE PENTRU CARE VREI SA MERGI INAINTE DE X
-                        2: {'Monday': 18, 'Tuesday': 19}}
+        1: {
+            'active': True,
+            'before_x': {1: {'Monday': pref.mondayStart.hour, 'Tuesday': pref.tuesdayStart.hour,
+                             'Wednesday': pref.wednesdayStart.hour,
+                             'Thursday': pref.thursdayStart.hour, 'Friday': pref.fridayStart.hour
+                             },
+                         2: {'Monday': pref.mondayStart.hour, 'Tuesday': pref.tuesdayStart.hour,
+                             'Wednesday': pref.wednesdayStart.hour,
+                             'Thursday': pref.thursdayStart.hour, 'Friday': pref.fridayStart.hour
+                             }
+                         },
+            'after_x': {
+                1: {'Monday': pref.mondayEnd.hour, 'Tuesday': pref.tuesdayEnd.hour, 'Wednesday': pref.wednesdayEnd.hour,
+                    'Thursday': pref.thursdayEnd.hour, 'Friday': pref.fridayEnd.hour
+                    },
+                2: {'Monday': pref.mondayEnd.hour, 'Tuesday': pref.tuesdayEnd.hour, 'Wednesday': pref.wednesdayEnd.hour,
+                    'Thursday': pref.thursdayEnd.hour, 'Friday': pref.fridayEnd.hour
+                    }
+            }
+        },
+        2: {
+            'active': True,
+            'max-per-day': {1: {'Monday-max': pref.mondayMax, 'Tuesday-max': pref.tuesdayMax,
+                                'Wednesday-max': pref.wednesdayMax, 'Thursday-max': pref.thursdayMax,
+                                'Friday-max': pref.fridayMax,
+                                'Monday-current': 0, 'Tuesday-current': 0, 'Wednesday-current': 0,
+                                'Thursday-current': 0, 'Friday-current': 0
+                                },
+                            2: {'Monday-max': pref.mondayMax, 'Tuesday-max': pref.tuesdayMax,
+                                'Wednesday-max': pref.wednesdayMax, 'Thursday-max': pref.thursdayMax,
+                                'Friday-max': pref.fridayMax,
+                                'Monday-current': 0, 'Tuesday-current': 0, 'Wednesday-current': 0,
+                                'Thursday-current': 0, 'Friday-current': 0
+                                }
+                            },
         }
     }
 
     activities = {}
-    #  days_of_week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
-
-    """
-    Reading from a json
-    """
-
-    # with open('input.txt') as json_file:
-    #     data = json.load(json_file)
-    #
-    # for week in data:
-    #     for day in data[week]:
-    #         for activity in data[week][day]:
-    #             name = activity['title']
-    #             a_type = activity['type']
-    #             if activity['start_time'] == "-":
-    #                 start_time = None
-    #             else:
-    #                 start_time = datetime.time(int(activity['start_time'].split(":")[0])).hour
-    #             date = Date(day, start_time, activity['duration'], activity['location'])
-    #             if (name, a_type, week) in activities.keys():
-    #                 activities[(name, a_type, week)].dates.append(date)
-    #                 activities[(name, a_type, week)].ids.append(activity['id'])
-    #             else:
-    #                 priority = activity['priority']
-    #                 if priority == "HIGH":
-    #                     priority = 3
-    #                 elif priority == "MEDIUM":
-    #                     priority = 2
-    #                 elif priority == "LOW":
-    #                     priority = 1
-    #                 else:
-    #                     priority = 0
-    #                 activities[(name, a_type, week)] = Activity(name=name, activity_type=a_type, dates=[date],
-    #                                                             priority=priority,
-    #                                                             week=week, activity_id=activity['id'])
-
     '''
     From server
     '''
     faculty_activities = get_all_faculty_activities(username)
+    extra_activities = get_extra_activities(username)
     all_activities = []
     for activity in faculty_activities:
         all_activities.extend(get_faculty_activities(subject=activity.title, type=activity.type, spec=Serie.IE3))
+    for activity in extra_activities:
+        all_activities.append(activity)
     for activity in all_activities:
+        if isinstance(activity, FacultyActivity):
+            a_type = activity.type
+            extra = False
+        else:
+            a_type = ''
+            extra = True
         a_name = activity.title
-        a_type = activity.type
         a_week = []
         if activity.frequency == "full":
             a_week.append(1)
@@ -328,6 +368,7 @@ def run(username):
                 activities[(a_name, a_type, week)].ids.append(activity.id)
             else:
                 priority = activity.priority
+
                 if priority == "HIGH":
                     priority = 3
                 elif priority == "MEDIUM":
@@ -336,8 +377,8 @@ def run(username):
                     priority = 1
                 else:
                     priority = 0
-                activities[(a_name, a_type, week)] = Activity(name=activity.title, activity_type=activity.type,
-                                                              dates=[date], priority=priority, week=week,
+                activities[(a_name, a_type, week)] = Activity(name=a_name, activity_type=a_type,
+                                                              dates=[date], extra=extra, priority=priority, week=week,
                                                               activity_id=activity.id)
 
     """
@@ -355,6 +396,8 @@ def run(username):
                  'Thursday': intervals.copy(), 'Friday': intervals.copy()}
              }
 
+    output = {"faculty": copy.deepcopy(weeks), "extra": copy.deepcopy(weeks)}
+
     # activities = sorted(activities.items(), key=lambda kv: kv[1].priority, reverse=True)
     activities = sort_activities(activities)
     # activities = collections.OrderedDict(activities)
@@ -369,21 +412,75 @@ def run(username):
         lock_program_filter_1(weeks, filters_dict[1])
 
     bypassed_filters = []
+    unable_to_put = []
 
     for activity in activities:
         found = 0
-        found += put_in_program(activity, activities, weeks)
-        if found == 0 and filters_dict[1]['active'] and activities[activity].priority == 3:
-            found_innner = 0
-            bypassed_filters.append(("Could not respect filter 1 for activity: ", activity))
+        found += put_in_program(activity, activities, weeks, filters_dict, all_activities)
+        if found == 0 and activities[activity].priority == 3:
+            found_inner = 0
             unlock_program_filter_1(weeks)
-            found_innner += put_in_program(activity, activities, weeks)
+            found_inner += put_in_program(activity, activities, weeks, filters_dict, all_activities)
             lock_program_filter_1(weeks, filters_dict[1])
-            if found_innner == 0:
-                pass
-                # print(activity)
-        # if found == 0 and filters_dict[2]['active'] and activities[activity].priority == 3:
-        #     pass
-    return weeks
+            if found_inner != 0:
+                bypassed_filters.append((found_inner, 1))
+            found += found_inner
+        if found == 0 and activities[activity].priority == 3:
+            found_inner = 0
+            filters_dict[2]['active'] = False
+            found_inner += put_in_program(activity, activities, weeks, filters_dict, all_activities)
+            filters_dict[2]['active'] = True
+            if found_inner != 0:
+                bypassed_filters.append((found_inner, 2))
+            found += found_inner
+        if found == 0 and activities[activity].priority == 3:
+            found_inner = 0
+            filters_dict[2]['active'] = False
+            unlock_program_filter_1(weeks)
+            found_inner += put_in_program(activity, activities, weeks, filters_dict, all_activities)
+            lock_program_filter_1(weeks, filters_dict[1])
+            filters_dict[2]['active'] = True
+            if found_inner != 0:
+                bypassed_filters.append((found_inner, 1))
+                bypassed_filters.append((found_inner, 2))
+            found += found_inner
+        if found == 0:
+            unable_to_put.append(activities[activity].name + ";" + activities[activity].type)
+
+    output_bypass_filters = {'faculty': {}, 'extra': {}}
+    for week in weeks:
+        for day in weeks[week]:
+            for hour in weeks[week][day]:
+                if weeks[week][day][hour] == "blocked":
+                    # noinspection PyTypeChecker
+                    output["extra"][week][day][hour] = "Blocked by filter"
+                    # noinspection PyTypeChecker
+                    output["faculty"][week][day][hour] = "Blocked by filter"
+                elif weeks[week][day][hour] is None:
+                    output["extra"][week][day][hour] = None
+                    output["faculty"][week][day][hour] = None
+                else:
+                    tuple_msg = weeks[week][day][hour]
+                    activity_id = tuple_msg[0]
+                    extra = tuple_msg[1]
+                    activities_bypassed = are_filters_bypassed(activity_id, bypassed_filters)
+                    if extra == 'False':
+                        if len(activities_bypassed) > 0:
+                            output_bypass_filters["faculty"][activity_id] = activities_bypassed
+                        output["faculty"][week][day][hour] = activity_id
+                        output["extra"][week][day][hour] = None
+                    else:
+                        if len(activities_bypassed) > 0:
+                            output_bypass_filters["extra"][activity_id] = activities_bypassed
+                        output["extra"][week][day][hour] = activity_id
+                        output["faculty"][week][day][hour] = None
+                # print(output["faculty"][week][day][hour])
+                # print(output["extra"][week][day][hour] + "\n\n")
+    output['bypass'] = output_bypass_filters
+    output['unable'] = unable_to_put
+
+    print(output_bypass_filters)
+
+    return output
     # with open('output.txt', 'w') as outfile:
     #     json.dump(weeks, outfile)

@@ -1,12 +1,14 @@
 class Activity:
 
-    def __init__(self, name=None, activity_type=None, dates=None, priority=None, week=None, activity_id=None):
+    def __init__(self, name=None, activity_type=None, extra=None,
+                 dates=None, priority=None, week=None, activity_id=None):
         if week is None or week == '-':
             self._week = None
         else:
             self._week = int(week)
         self._name = name
         self._type = activity_type
+        self._extra = extra
         self._dates = dates
         self._priority = priority
         self._ids = [activity_id]
@@ -35,6 +37,10 @@ class Activity:
     @property
     def type(self):
         return self._type
+
+    @property
+    def extra(self):
+        return self._extra
 
     @property
     def priority(self):
