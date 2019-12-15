@@ -1,8 +1,12 @@
+import json
+
 from django.forms import model_to_dict
 from django.http import JsonResponse
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 
+from authentication.models import LastTimetable
+from dbutils.timetable_utils import save_last_timetable, get_differences, get_last_timetable
 from schedule.models import SchoolActivity, ExtraActivity, UserExtraActivity, User
 from schedule.models import UserSchoolActivity
 from schedule.serializers import SchoolActivitySerializer, ExtraActivitySerializer
@@ -44,9 +48,25 @@ def user_extra_schedule(request, username):
     return JsonResponse(data=to_return)
 
 
+def user_full_schedule(username):
+    school_act = get_activities('school', username)
+    extra_act = get_activities('extra', username)
+    return {'school': school_act, 'extra': extra_act}
+
+
+@api_view(['GET'])
+def get_initial_timetable(request, username):
+    return JsonResponse(data=user_full_schedule(username))
+
+
 @api_view(['GET'])
 def testalgo(request, username):
-    return JsonResponse(Scheduler.compute(username))
+    last_timetable = get_last_timetable(username)
+    generated_timetable = Scheduler.compute(username)
+    response=JsonResponse(generated_timetable)
+    differences = get_differences(last_timetable, generated_timetable)
+    save_last_timetable(response.content.decode('utf-8'), username)
+    return response
 
 
 def get_activities(activity_type: str, username: str):
@@ -123,5 +143,25 @@ def user_schedule(request, username):
     return JsonResponse(data=to_return)
 
 
-def index(request):
-    return JsonResponse(Scheduler.compute())
+@api_view(['POST', 'GET'])
+def save_last(request, username):
+    if request.method == 'POST':
+        save_last_timetable(json.dumps(request.data), username)
+        return JsonResponse({"id": 1})
+    elif request.method == 'GET':
+        dict = get_last_timetable(username)
+        return JsonResponse(dict)
+
+
+@api_view(['POST'])
+def save_extra(request, username):
+    username = username + '@gmail.com'
+    user = User.objects.get(email=username)
+    lst = LastTimetable.objects.get(user=user)
+    last = lst.lastTimetable
+    lastDict = json.loads(last)
+    lastDict['extra'] = request.data
+    lst.lastTimetable = json.dumps(lastDict)
+    lst.save()
+
+    return JsonResponse({"id": 1})

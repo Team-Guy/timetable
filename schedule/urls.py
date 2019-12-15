@@ -8,9 +8,11 @@ router.register('school_act', views.SchoolActivityViewset, base_name='school_act
 router.register('extra_act', views.ExtraActivityViewset, base_name='extra_activity')
 
 urlpatterns = [
-    path('', views.index),
     path('<str:username>', views.user_schedule),
-    path('<str:username>/extra', views.user_extra_schedule),
+    path('extra/<str:username>', views.user_extra_schedule),
+    path('initial/<str:username>', views.get_initial_timetable),
+    path('save_last/<str:username>', views.save_last),
+    path('save_extra/<str:username>', views.save_extra),
     path('', include(router.urls)),
     path('algo/<str:username>/', views.testalgo)
 ]
