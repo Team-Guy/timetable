@@ -72,6 +72,70 @@ def testalgo(request, username):
     return response
 
 
+def health(request):
+    return JsonResponse(data={'status': 'good'})
+
+
+@api_view(['POST', 'GET'])
+def save_last(request, username):
+    if request.method == 'POST':
+        save_last_timetable(json.dumps(request.data), username)
+        return JsonResponse({"id": 1})
+    elif request.method == 'GET':
+        dict = get_last_timetable(username)
+        return JsonResponse(dict)
+
+
+@api_view(['POST'])
+def save_extra(request, username):
+    username = username + '@gmail.com'
+    user = User.objects.get(email=username)
+    for extra in UserExtraActivity.objects.filter(user=user):
+        extra.extra_activity.delete()
+
+    activities = request.data
+
+    for activity in activities:
+        extra = ExtraActivity(
+            title=activity['title'],
+            location=activity['location'],
+            start_time=activity['start_time'],
+            day=activity['day'],
+            duration=activity['duration'],
+            frequency=activity['frequency'],
+            priority=activity['priority'],
+            description=activity['desc']
+        )
+        extra.save()
+        UserExtraActivity(user=user, extra_activity=extra).save()
+
+    lastDict = get_last_timetable(username.split('@')[0])
+    lastDict['extra'] = get_activities('extra', username.split('@')[0])
+    l = JsonResponse(lastDict['extra'])
+    lastDict['extra'] = json.loads(l.content.decode('utf-8'))
+    lst = LastTimetable.objects.get(user=user)
+    lst.lastTimetable = json.dumps(lastDict)
+    lst.save()
+
+    return JsonResponse({"id": 1})
+
+
+@api_view(['GET'])
+def get_groups(request):
+    return JsonResponse(Specialization.groups[Serie.I1] +
+                        Specialization.groups[Serie.I2] +
+                        Specialization.groups[Serie.I3] +
+                        Specialization.groups[Serie.IE1] +
+                        Specialization.groups[Serie.IE2] +
+                        Specialization.groups[Serie.IE3] +
+                        Specialization.groups[Serie.MI1] +
+                        Specialization.groups[Serie.MI2] +
+                        Specialization.groups[Serie.MI3] +
+                        Specialization.groups[Serie.MIE1] +
+                        Specialization.groups[Serie.MIE1] +
+                        Specialization.groups[Serie.MIE1], safe=False)
+
+
 def get_activities(activity_type: str, username: str):
     odd_days_dict = dict(
         Monday={8: None,
@@ -233,56 +297,12 @@ def get_activities(activity_type: str, username: str):
         print(start_hour, duration)
         if frequency == 'full':
             for i in range(duration):
-                to_return[1][day][start_hour+i]=activity_dict
-                to_return[2][day][start_hour+i]=activity_dict
-        elif frequency == 'even':
+                to_return[1][day][start_hour + i] = activity_dict
+                to_return[2][day][start_hour + i] = activity_dict
+        elif frequency == 'par':
             for i in range(duration):
-                to_return[2][day][start_hour+i]=activity_dict
+                to_return[2][day][start_hour + i] = activity_dict
         else:
             for i in range(duration):
-                to_return[1][day][start_hour+i]=activity_dict
+                to_return[1][day][start_hour + i] = activity_dict
     return to_return
-
-
-def health(request):
-    return JsonResponse(data={'status': 'good'})
-
-
-@api_view(['POST', 'GET'])
-def save_last(request, username):
-    if request.method == 'POST':
-        save_last_timetable(json.dumps(request.data), username)
-        return JsonResponse({"id": 1})
-    elif request.method == 'GET':
-        dict = get_last_timetable(username)
-        return JsonResponse(dict)
-
-
-@api_view(['POST'])
-def save_extra(request, username):
-    username = username + '@gmail.com'
-    user = User.objects.get(email=username)
-    lst = LastTimetable.objects.get(user=user)
-    last = lst.lastTimetable
-    lastDict = json.loads(last)
-    lastDict['extra'] = request.data
-    lst.lastTimetable = json.dumps(lastDict)
-    lst.save()
-
-    return JsonResponse({"id": 1})
-
-
-@api_view(['GET'])
-def get_groups(request):
-    return JsonResponse(Specialization.groups[Serie.I1] +
-                        Specialization.groups[Serie.I2] +
-                        Specialization.groups[Serie.I3] +
-                        Specialization.groups[Serie.IE1] +
-                        Specialization.groups[Serie.IE2] +
-                        Specialization.groups[Serie.IE3] +
-                        Specialization.groups[Serie.MI1] +
-                        Specialization.groups[Serie.MI2] +
-                        Specialization.groups[Serie.MI3] +
-                        Specialization.groups[Serie.MIE1] +
-                        Specialization.groups[Serie.MIE1] +
-                        Specialization.groups[Serie.MIE1], safe=False)
