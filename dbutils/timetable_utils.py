@@ -17,5 +17,6 @@ def get_last_timetable(username):
     return json.loads(LastTimetable.objects.get(user=user).lastTimetable)
 
 
+
 def get_differences(last_timetable: dict, generated_timetable: dict):
     pass
