@@ -396,7 +396,7 @@ def run(username):
                  'Thursday': intervals.copy(), 'Friday': intervals.copy()}
              }
 
-    output = {"faculty": copy.deepcopy(weeks), "extra": copy.deepcopy(weeks)}
+    output = {"school": copy.deepcopy(weeks), "extra": copy.deepcopy(weeks)}
 
     # activities = sorted(activities.items(), key=lambda kv: kv[1].priority, reverse=True)
     activities = sort_activities(activities)
@@ -455,10 +455,10 @@ def run(username):
                     # noinspection PyTypeChecker
                     output["extra"][week][day][hour] = "Blocked by filter"
                     # noinspection PyTypeChecker
-                    output["faculty"][week][day][hour] = "Blocked by filter"
+                    output["school"][week][day][hour] = "Blocked by filter"
                 elif weeks[week][day][hour] is None:
                     output["extra"][week][day][hour] = None
-                    output["faculty"][week][day][hour] = None
+                    output["school"][week][day][hour] = None
                 else:
                     tuple_msg = weeks[week][day][hour]
                     activity_id = tuple_msg[0]
@@ -466,15 +466,15 @@ def run(username):
                     activities_bypassed = are_filters_bypassed(activity_id, bypassed_filters)
                     if extra == 'False':
                         if len(activities_bypassed) > 0:
-                            output_bypass_filters["faculty"][activity_id] = activities_bypassed
-                        output["faculty"][week][day][hour] = activity_id
+                            output_bypass_filters["school"][activity_id] = activities_bypassed
+                        output["school"][week][day][hour] = activity_id
                         output["extra"][week][day][hour] = None
                     else:
                         if len(activities_bypassed) > 0:
                             output_bypass_filters["extra"][activity_id] = activities_bypassed
                         output["extra"][week][day][hour] = activity_id
-                        output["faculty"][week][day][hour] = None
-                # print(output["faculty"][week][day][hour])
+                        output["school"][week][day][hour] = None
+                # print(output["school"][week][day][hour])
                 # print(output["extra"][week][day][hour] + "\n\n")
     output['bypass'] = output_bypass_filters
     output['unable'] = unable_to_put
