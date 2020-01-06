@@ -68,7 +68,7 @@ def testalgo(request, username):
     generated_timetable = Scheduler.compute(username)
     response = JsonResponse(generated_timetable)
     differences = get_differences(last_timetable, generated_timetable)
-    save_last_timetable(response.content.decode('utf-8'), username)
+    # save_last_timetable(response.content.decode('utf-8'), username)
     return response
 
 
