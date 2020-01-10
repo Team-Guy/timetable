@@ -73,6 +73,7 @@ def testalgo(request, username):
 
 
 def health(request):
+    breakpoint()
     return JsonResponse(data={'status': 'good'})
 
 

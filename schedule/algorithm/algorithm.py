@@ -474,7 +474,6 @@ def run(username):
                             output_bypass_filters["extra"][activity_id] = activities_bypassed
                         output["extra"][week][day][hour] = activity_id
                         output["school"][week][day][hour] = None
-                # print(output["school"][week][day][hour])
                 # print(output["extra"][week][day][hour] + "\n\n")
     output['bypass'] = output_bypass_filters
     output['unable'] = unable_to_put
