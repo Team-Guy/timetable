@@ -16,7 +16,6 @@ def get_last_timetable(username):
     last = LastTimetable.objects.get(user=user).lastTimetable
     return json.loads(LastTimetable.objects.get(user=user).lastTimetable)
 
-
 def get_moved_location(generated_timetable, title, act_type):
     if act_type:
         for week in generated_timetable['school'].keys():

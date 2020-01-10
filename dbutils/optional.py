@@ -117,7 +117,6 @@ class Optional:
         'Cerc de programare in C',
         'Teoria si metodologia instruirii. Teoria si metodologia evaluarii',
         'Comunicare si dezvoltare profesionala in informatica',
-        'Psihologie educationala',
         'Modelare matematică',
         'Matematica operatiunilor financiare',
         'Metode numerice in mecanică',

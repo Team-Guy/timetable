@@ -15,7 +15,7 @@ class User(Model):
 
 class SchoolActivity(Model):
     title = CharField(max_length=255)
-    location = CharField(max_length=255)
+    location = CharField(max_length=255,default='FSEGA')
     start_time = TimeField()
     day = CharField(max_length=15)
     group = CharField(max_length=10)

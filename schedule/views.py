@@ -6,12 +6,15 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 
 from authentication.models import LastTimetable
+from dbutils.specialization import Specialization
 from dbutils.timetable_utils import save_last_timetable, get_differences, get_last_timetable
 from schedule.models import SchoolActivity, ExtraActivity, UserExtraActivity, User
 from schedule.models import UserSchoolActivity
 from schedule.serializers import SchoolActivitySerializer, ExtraActivitySerializer
 from schedule.services import Scheduler
 from datetime import datetime
+
+from scrapping.serie import Serie
 
 
 @api_view(['GET'])
@@ -65,83 +68,13 @@ def testalgo(request, username):
     generated_timetable = Scheduler.compute(username)
     response = JsonResponse(generated_timetable)
     differences = get_differences(last_timetable, generated_timetable)
-    save_last_timetable(response.content.decode('utf-8'), username)
+    # save_last_timetable(response.content.decode('utf-8'), username)
     return response
-
-
-def get_activities(activity_type: str, username: str):
-    odd_days_dict = dict(
-        monday=list(),
-        tuesday=list(),
-        wednesday=list(),
-        thursday=list(),
-        friday=list()
-    )
-    even_days_dict = dict(
-        monday=list(),
-        tuesday=list(),
-        wednesday=list(),
-        thursday=list(),
-        friday=list()
-    )
-    to_return = {1: odd_days_dict, 2: even_days_dict}
-    if activity_type == 'school':
-        model = UserSchoolActivity
-        to_convert = 'school_activity'
-    else:
-        to_convert = 'extra_activity'
-        model = UserExtraActivity
-    school_act_qs = model.objects.filter(user__email=f'{username}@gmail.com')
-    for user_activity in school_act_qs:
-        activity_dict = model_to_dict(getattr(user_activity, to_convert))
-        frequency = activity_dict.pop('frequency')
-        day = activity_dict.pop('day').lower()
-        if frequency == 'full':
-            to_return[1][day].append(activity_dict)
-            to_return[2][day].append(activity_dict)
-        elif frequency == 'even':
-            to_return[2][day].append(activity_dict)
-        else:
-            to_return[1][day].append(activity_dict)
-    return to_return
 
 
 def health(request):
     breakpoint()
     return JsonResponse(data={'status': 'good'})
-
-
-@api_view(['GET'])
-def user_schedule(request, username):
-    odd_days_dict = dict(
-        monday=list(),
-        tuesday=list(),
-        wednesday=list(),
-        thursday=list(),
-        friday=list()
-    )
-    even_days_dict = dict(
-        monday=list(),
-        tuesday=list(),
-        wednesday=list(),
-        thursday=list(),
-        friday=list()
-    )
-    to_return = {1: odd_days_dict, 2: even_days_dict}
-    school_act_qs = UserSchoolActivity.objects.filter(user__email=f'{username}@gmail.com')
-    for user_activity in school_act_qs:
-        activity_dict = model_to_dict(user_activity.school_activity)
-        frequency = activity_dict.pop('frequency')
-        day = activity_dict.pop('day').lower()
-        if frequency == 'full':
-            to_return[1][day].append(activity_dict)
-            to_return[2][day].append(activity_dict)
-        elif frequency == 'par':
-            to_return[2][day].append(activity_dict)
-        else:
-            to_return[1][day].append(activity_dict)
-
-    return JsonResponse(data=to_return)
 
 
 @api_view(['POST', 'GET'])
@@ -158,11 +91,219 @@ def save_last(request, username):
 def save_extra(request, username):
     username = username + '@gmail.com'
     user = User.objects.get(email=username)
+    for extra in UserExtraActivity.objects.filter(user=user):
+        extra.extra_activity.delete()
+
+    activities = request.data
+
+    for activity in activities:
+        extra = ExtraActivity(
+            title=activity['title'],
+            location=activity['location'],
+            start_time=activity['start_time'],
+            day=activity['day'],
+            duration=activity['duration'],
+            frequency=activity['frequency'],
+            priority=activity['priority'],
+            description=activity['desc']
+        )
+        extra.save()
+        UserExtraActivity(user=user, extra_activity=extra).save()
+
+    lastDict = get_last_timetable(username.split('@')[0])
+    lastDict['extra'] = get_activities('extra', username.split('@')[0])
+    l = JsonResponse(lastDict['extra'])
+    lastDict['extra'] = json.loads(l.content.decode('utf-8'))
     lst = LastTimetable.objects.get(user=user)
-    last = lst.lastTimetable
-    lastDict = json.loads(last)
-    lastDict['extra'] = request.data
     lst.lastTimetable = json.dumps(lastDict)
     lst.save()
 
     return JsonResponse({"id": 1})
+
+
+@api_view(['GET'])
+def get_groups(request):
+    return JsonResponse(Specialization.groups[Serie.I1] +
+                        Specialization.groups[Serie.I2] +
+                        Specialization.groups[Serie.I3] +
+                        Specialization.groups[Serie.IE1] +
+                        Specialization.groups[Serie.IE2] +
+                        Specialization.groups[Serie.IE3] +
+                        Specialization.groups[Serie.MI1] +
+                        Specialization.groups[Serie.MI2] +
+                        Specialization.groups[Serie.MI3] +
+                        Specialization.groups[Serie.MIE1] +
+                        Specialization.groups[Serie.MIE1] +
+                        Specialization.groups[Serie.MIE1], safe=False)
+
+
+def get_activities(activity_type: str, username: str):
+    odd_days_dict = dict(
+        Monday={8: None,
+                9: None,
+                10: None,
+                11: None,
+                12: None,
+                13: None,
+                14: None,
+                15: None,
+                16: None,
+                17: None,
+                18: None,
+                19: None
+                },
+        Tuesday={
+            8: None,
+            9: None,
+            10: None,
+            11: None,
+            12: None,
+            13: None,
+            14: None,
+            15: None,
+            16: None,
+            17: None,
+            18: None,
+            19: None
+        },
+        Wednesday={
+            8: None,
+            9: None,
+            10: None,
+            11: None,
+            12: None,
+            13: None,
+            14: None,
+            15: None,
+            16: None,
+            17: None,
+            18: None,
+            19: None
+        },
+        Thursday={
+            8: None,
+            9: None,
+            10: None,
+            11: None,
+            12: None,
+            13: None,
+            14: None,
+            15: None,
+            16: None,
+            17: None,
+            18: None,
+            19: None
+        },
+        Friday={
+            8: None,
+            9: None,
+            10: None,
+            11: None,
+            12: None,
+            13: None,
+            14: None,
+            15: None,
+            16: None,
+            17: None,
+            18: None,
+            19: None
+        }
+    )
+    even_days_dict = dict(
+        Monday={
+            8: None,
+            9: None,
+            10: None,
+            11: None,
+            12: None,
+            13: None,
+            14: None,
+            15: None,
+            16: None,
+            17: None,
+            18: None,
+            19: None
+        },
+        Tuesday={
+            8: None,
+            9: None,
+            10: None,
+            11: None,
+            12: None,
+            13: None,
+            14: None,
+            15: None,
+            16: None,
+            17: None,
+            18: None,
+            19: None
+        },
+        Wednesday={
+            8: None,
+            9: None,
+            10: None,
+            11: None,
+            12: None,
+            13: None,
+            14: None,
+            15: None,
+            16: None,
+            17: None,
+            18: None,
+            19: None
+        },
+        Thursday={
+            8: None,
+            9: None,
+            10: None,
+            11: None,
+            12: None,
+            13: None,
+            14: None,
+            15: None,
+            16: None,
+            17: None,
+            18: None,
+            19: None
+        },
+        Friday={
+            8: None,
+            9: None,
+            10: None,
+            11: None,
+            12: None,
+            13: None,
+            14: None,
+            15: None,
+            16: None,
+            17: None,
+            18: None,
+            19: None
+        }
+    )
+    to_return = {1: odd_days_dict, 2: even_days_dict}
+    if activity_type == 'school':
+        model = UserSchoolActivity
+        to_convert = 'school_activity'
+    else:
+        to_convert = 'extra_activity'
+        model = UserExtraActivity
+    school_act_qs = model.objects.filter(user__email=f'{username}@gmail.com')
+    for user_activity in school_act_qs:
+        activity_dict = model_to_dict(getattr(user_activity, to_convert))
+        frequency = activity_dict.pop('frequency')
+        day = activity_dict.get('day')
+        start_hour = activity_dict.get('start_time').hour
+        duration = activity_dict.get('duration')
+        print(start_hour, duration)
+        if frequency == 'full':
+            for i in range(duration):
+                to_return[1][day][start_hour + i] = activity_dict
+                to_return[2][day][start_hour + i] = activity_dict
+        elif frequency == 'par':
+            for i in range(duration):
+                to_return[2][day][start_hour + i] = activity_dict
+        else:
+            for i in range(duration):
+                to_return[1][day][start_hour + i] = activity_dict
+    return to_return

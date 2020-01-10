@@ -211,3 +211,11 @@ def optionals_by_semester(request,semester):
         return JsonResponse(Optional.optional_sem_5, safe=False)
     if semester == '6':
         return JsonResponse(Optional.optional_sem_6, safe=False)
+
+
+def exists(request,username):
+    username = username + "@gmail.com"
+    exists={"exists":True}
+    if len(User.objects.filter(email=username))==0:
+        exists["exists"]=False
+    return JsonResponse(exists)
