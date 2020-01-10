@@ -16,47 +16,53 @@ def get_last_timetable(username):
     last = LastTimetable.objects.get(user=user).lastTimetable
     return json.loads(LastTimetable.objects.get(user=user).lastTimetable)
 
-def get_moved_location(generated_timetable, title, act_type):
-    if act_type:
-        for week in generated_timetable['school'].keys():
-            for day in generated_timetable['school'][week].keys():
-                for hour in generated_timetable['school'][week][day].keys():
-                    if isinstance(generated_timetable['school'][week][day][hour], dict):
-                        if generated_timetable['school'][week][day][hour]['title'] == title and generated_timetable['school'][week][day][hour]['type'] == act_type:
-                            return week, day, hour
+
+def get_moved_location(new_timetable, last_activity):
+    for a_type in ("school", "extra"):  # All keys are str
+        for week in new_timetable[a_type]:
+            for day in new_timetable[a_type][week]:
+                for hour in new_timetable[a_type][week][day]:
+                    if isinstance(new_timetable[a_type][week][day][hour], dict):  # If it is an activity
+                        if new_timetable[a_type][week][day][hour]['title'] == last_activity['title']:
+                            if 'type' in last_activity.keys():
+                                if new_timetable[a_type][week][day][hour]['type'] == last_activity['type']:
+                                    return week, day, hour
+                            else:
+                                return week, day, hour
+
+
+def add_difference(differences, before_location, moved_location, last_activity):
+    if moved_location is None:
+        moved_location = ("null", "null", "null")
+    if 'type' in last_activity.keys():
+        differences.append({"i_week": before_location[0], "i_day": before_location[1], "i_hour": before_location[2],
+                            "n_week": moved_location[0], "n_day": moved_location[1], "n_hour": moved_location[2],
+                            "title": last_activity['title'], "type": last_activity['type']})
+    else:
+        differences.append({"i_week": before_location[0], "i_day": before_location[1], "i_hour": before_location[2],
+                            "n_week": moved_location[0], "n_day": moved_location[1], "n_hour": moved_location[2],
+                            "title": last_activity['title']})
 
 
 def get_differences(last_timetable: dict, generated_timetable: dict):
-    # last_timetable[--extra--][week][day][hour] == generated_timetable
-    differences = list()
-    faculty_hours = generated_timetable['school']
-    extra_hours = generated_timetable['extra']
-    for week in [1, 2]:
-        for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']:
-            for hour in range(8, 20):
-                generated_activity_dict = faculty_hours[week][day][hour]
-                last_activity_dict = last_timetable['school'][str(week)][day][str(hour)]
-                if isinstance(generated_activity_dict, dict) and isinstance(last_activity_dict, dict):
-                    if generated_activity_dict['id'] != last_activity_dict['id']:
-                        try:
-                            week, day, hour = get_moved_location(generated_timetable, generated_activity_dict['title'],
-                                                                 generated_activity_dict['type'])
-                        except Exception as e:
-                            print()
+    differences = []
+    for a_type in ("school", "extra"):  # All keys are str
+        for week in last_timetable[a_type]:
+            for day in last_timetable[a_type][week]:
+                for hour in last_timetable[a_type][week][day]:
+                    last_activity = last_timetable[a_type][week][day][hour]
+                    if isinstance(last_activity, dict):  # Means that is an activity
+                        new_activity = generated_timetable[a_type][int(week)][day][int(hour)]  # Has some keys int
+                        if isinstance(new_activity, dict):  # If it is an activity
+                            if new_activity['id'] == last_activity['id']:  # If they are the same exact activity
+                                continue
+                            else:  # If they are not
+                                moved_location = get_moved_location(generated_timetable, last_activity)  # Find where it moved
+                                before_location = (week, day, hour)
+                                add_difference(differences, before_location, moved_location, last_activity)
+                        else:  # Is either blocked or null | Either case it moved
+                            moved_location = get_moved_location(generated_timetable, last_activity)  # Find where it moved
+                            before_location = (week, day, hour)
+                            add_difference(differences, before_location, moved_location, last_activity)
+    return differences
 
-
-    print()
-    # for extra in last_timetable.keys():
-    #     for week in last_timetable[extra].keys():
-    #         for day in last_timetable[extra][week].keys():
-    #             for hour in last_timetable[extra][week][day].keys():
-    #                 print(generated_timetable[extra][int(week)][day][int(hour)])
-    #                 if last_timetable[extra][week][day][hour]['id'] != \
-    #                         generated_timetable[extra][int(week)][day][int(hour)]['id']:
-    #                     week, day, hour = get_moved_location(generated_timetable,
-    #                                                          generated_timetable[extra][int(week)][day][int(hour)][
-    #                                                              'title'],
-    #                                                          generated_timetable[extra][int(week)][day][int(hour)].get(
-    #                                                              'type'))
-    #                     differences.append((generated_timetable[extra][int(week)][day][int(hour)]['title'], generated_timetable[extra][int(week)][day][int(hour)].get('type'), hour, day, week))
-    # print(differences)

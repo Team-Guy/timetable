@@ -173,7 +173,8 @@ def put_week_day_hour(program, duration, a_week, a_day, a_hour, tuple_msg, a_fil
     :param a_week: The week that the activity takes place - Expected value: {1, 2} - Integer
     :param a_day: The day that the activity takes place - Expected value: {monday-friday} - String
     :param a_hour: The start hour of the activity - Expected value: {8-19} - Integer
-    :param msg: The activity to be put on the program  containing the name of the activity and the type - String
+    :param tuple_msg: The activity to be put on the program  containing the name of the activity and the type at index 0
+     and at index 1 a bool if the activity is extra or not - Tuple
     :param a_filters: The filters that we use to optimize the algorithm for the user
     :return: 1 if the such an interval is found, else 0
     """
@@ -282,10 +283,10 @@ def put_in_program(a_activity, a_activities, a_weeks, a_filters_dict, a_all_acti
     return result
 
 
-def are_filters_bypassed(activity_id, bypass_list):
+def are_filters_bypassed(activity, bypass_list):
     filters = []
     for a_id, a_filter in bypass_list:
-        if a_id == activity_id:
+        if a_id == activity['id']:
             filters.append(a_filter)
     return filters
 
@@ -446,8 +447,7 @@ def run(username):
             found += found_inner
         if found == 0:
             unable_to_put.append(activities[activity].name + ";" + activities[activity].type)
-
-    output_bypass_filters = {'faculty': {}, 'extra': {}}
+    output_bypass_filters = {'school': {}, 'extra': {}}
     for week in weeks:
         for day in weeks[week]:
             for hour in weeks[week][day]:
@@ -461,24 +461,22 @@ def run(username):
                     output["school"][week][day][hour] = None
                 else:
                     tuple_msg = weeks[week][day][hour]
-                    activity_id = tuple_msg[0]
+                    activity = tuple_msg[0]
                     extra = tuple_msg[1]
-                    activities_bypassed = are_filters_bypassed(activity_id, bypassed_filters)
+                    activities_bypassed = are_filters_bypassed(activity, bypassed_filters)
                     if extra == 'False':
                         if len(activities_bypassed) > 0:
-                            output_bypass_filters["school"][activity_id] = activities_bypassed
-                        output["school"][week][day][hour] = activity_id
+                            output_bypass_filters["school"][activity['id']] = activities_bypassed
+                        output["school"][week][day][hour] = activity
                         output["extra"][week][day][hour] = None
                     else:
                         if len(activities_bypassed) > 0:
-                            output_bypass_filters["extra"][activity_id] = activities_bypassed
-                        output["extra"][week][day][hour] = activity_id
+                            output_bypass_filters["extra"][activity['id']] = activities_bypassed
+                        output["extra"][week][day][hour] = activity
                         output["school"][week][day][hour] = None
                 # print(output["extra"][week][day][hour] + "\n\n")
     output['bypass'] = output_bypass_filters
     output['unable'] = unable_to_put
-
-    print(output_bypass_filters)
 
     return output
     # with open('output.txt', 'w') as outfile:
