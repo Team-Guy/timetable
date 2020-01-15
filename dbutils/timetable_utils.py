@@ -35,13 +35,25 @@ def add_difference(differences, before_location, moved_location, last_activity):
     if moved_location is None:
         moved_location = ("null", "null", "null")
     if 'type' in last_activity.keys():
-        differences.append({"i_week": before_location[0], "i_day": before_location[1], "i_hour": before_location[2],
-                            "n_week": moved_location[0], "n_day": moved_location[1], "n_hour": moved_location[2],
-                            "title": last_activity['title'], "type": last_activity['type']})
+        differences.append(
+            {"i_week": int(before_location[0]), "i_day": before_location[1], "i_hour": int(before_location[2]),
+             "n_week": moved_location[0], "n_day": moved_location[1], "n_hour": moved_location[2],
+             "title": last_activity['title'], "type": last_activity['type']})
     else:
         differences.append({"i_week": before_location[0], "i_day": before_location[1], "i_hour": before_location[2],
                             "n_week": moved_location[0], "n_day": moved_location[1], "n_hour": moved_location[2],
                             "title": last_activity['title']})
+
+
+def same_activity(last_activity, new_activity):
+    return last_activity['title'] == new_activity['title'] and last_activity['type'] == new_activity['type'] and \
+           last_activity['day'] == new_activity['day'] and last_activity['start_time'] == new_activity['start_time'] and \
+           last_activity['frequency'] == new_activity['frequency']
+
+
+def dup_diff(diff):
+    return diff['i_week'] == diff['n_week'] and diff['i_day'] == diff['n_day'] and (
+                diff['i_hour'] == diff['n_hour'] or diff['i_hour'] - 1 == diff['n_hour'])
 
 
 def get_differences(last_timetable: dict, generated_timetable: dict):
@@ -54,15 +66,21 @@ def get_differences(last_timetable: dict, generated_timetable: dict):
                     if isinstance(last_activity, dict):  # Means that is an activity
                         new_activity = generated_timetable[a_type][int(week)][day][int(hour)]  # Has some keys int
                         if isinstance(new_activity, dict):  # If it is an activity
-                            if new_activity['id'] == last_activity['id']:  # If they are the same exact activity
+                            if new_activity['id'] == last_activity['id'] or same_activity(last_activity,
+                                                                                          new_activity):  # If they are the same exact activity
                                 continue
                             else:  # If they are not
-                                moved_location = get_moved_location(generated_timetable, last_activity)  # Find where it moved
+                                moved_location = get_moved_location(generated_timetable,
+                                                                    last_activity)  # Find where it moved
                                 before_location = (week, day, hour)
                                 add_difference(differences, before_location, moved_location, last_activity)
                         else:  # Is either blocked or null | Either case it moved
-                            moved_location = get_moved_location(generated_timetable, last_activity)  # Find where it moved
+                            moved_location = get_moved_location(generated_timetable,
+                                                                last_activity)  # Find where it moved
                             before_location = (week, day, hour)
                             add_difference(differences, before_location, moved_location, last_activity)
-    return differences
-
+    diffs = []
+    for diff in differences:
+        if not dup_diff(diff) and diff['i_hour'] % 2 == 0 and (diff['i_week'] == diff['n_week'] or diff['n_week']=='null'):
+            diffs.append(diff)
+    return diffs
