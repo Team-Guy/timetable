@@ -1,8 +1,10 @@
 import copy
 
 from dbutils.faculty_activity import FacultyActivity
-from dbutils.school_utils import get_faculty_activities, get_all_faculty_activities, get_user_preferences
+from dbutils.school_utils import get_faculty_activities, get_all_faculty_activities, get_user_preferences, \
+    get_current_user
 from dbutils.extra_utils import get_extra_activities
+from dbutils.specialization import Specialization
 from schedule.algorithm.activity import Activity
 from schedule.algorithm.date import Date
 #       The output will be 2 schedules:
@@ -339,9 +341,12 @@ def run(username):
     '''
     faculty_activities = get_all_faculty_activities(username)
     extra_activities = get_extra_activities(username)
+    user = get_current_user(username)
     all_activities = []
+    spec=Specialization()
     for activity in faculty_activities:
-        all_activities.extend(get_faculty_activities(subject=activity.title, type=activity.type, spec=Serie.IE3))
+        all_activities.extend(get_faculty_activities(subject=activity.title, type=activity.type,
+                                                     spec=spec.getUserSpec(user.group)))
     for activity in extra_activities:
         all_activities.append(activity)
     for activity in all_activities:
@@ -466,12 +471,12 @@ def run(username):
                     activities_bypassed = are_filters_bypassed(activity, bypassed_filters)
                     if extra == 'False':
                         if len(activities_bypassed) > 0:
-                            output_bypass_filters["school"][activity['id']] = activities_bypassed
+                            output_bypass_filters["school"][activity['id']] = activity
                         output["school"][week][day][hour] = activity
                         output["extra"][week][day][hour] = None
                     else:
                         if len(activities_bypassed) > 0:
-                            output_bypass_filters["extra"][activity['id']] = activities_bypassed
+                            output_bypass_filters["extra"][activity['id']] = activity
                         output["extra"][week][day][hour] = activity
                         output["school"][week][day][hour] = None
                 # print(output["extra"][week][day][hour] + "\n\n")
